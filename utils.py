@@ -4,6 +4,7 @@ from flask import current_app, jsonify, request
 from errors import AuthorizationError, InvalidArgumentError
 
 
+
 def get_auth_token():
     """
     Parse and validate incoming request Authorization header.
@@ -41,8 +42,9 @@ def get_jwt():
         DecodeError: 'Wrong JWT structure'
     }
     token = get_auth_token()
+    print(f'authentcation in GET_JWT ={token}')
     try:
-        return ""
+        return (token)
     except tuple(expected_errors) as error:
         raise AuthorizationError(expected_errors[error.__class__])
 
@@ -56,7 +58,6 @@ def get_json(schema):
     anything before passing to an API endpoint, and thus it may be modified in
     any way, replaced by another function, or even removed from the module.
     """
-
     data = request.get_json(force=True, silent=True, cache=False)
 
     '''
@@ -70,7 +71,6 @@ def get_json(schema):
 
 def jsonify_data(data):
     return jsonify({'data': data})
-
 
 def jsonify_errors(data):
     return jsonify({'errors': [data]})

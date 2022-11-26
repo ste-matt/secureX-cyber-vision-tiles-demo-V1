@@ -8,6 +8,7 @@ from flask import (Flask, abort, flash, jsonify, redirect, render_template,
 
 from schemas import DashboardTileDataSchema, DashboardTileSchema
 from utils import get_json, get_jwt, jsonify_data
+from crayons import *
 
 auth_token = "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb"
 
@@ -78,102 +79,98 @@ def tiles():
                 "description": "A longer description",
                 "tags": ["test"],
             },
-            {
-                "id": "test-graph",
-                "type": "line_chart",
-                "title": "Test Graph",
-                "periods": ["last_24_hours"],
-                "short_description": "A short description",
-                "description": "A longer description",
-                "tags": ["test"],
-            },
+
         ]
     )
     
 @app.route("/tiles/tile-data", methods=["POST"])
 def tile_data():
-    data = get_json(DashboardTileDataSchema())
-    print (green(data["tile_id"],bold=True))     
-    if data["tile_id"] == "test-summary":
-       total , low, medium, high, critical = cv140_ec()
-       return jsonify_data(
-        {
-                "observed_time": {
-                    "start_time": "2020-12-19T00:07:00.000Z",
-                    "end_time": "2021-01-18T00:07:00.000Z",
-                },
-                "valid_time": {
-                    "start_time": "2021-01-18T00:07:00.000Z",
-                    "end_time": "2021-01-18T00:12:00.000Z",
-                },
-                "data": [
-                    {
-                        "icon": "brain",
-                        "label": "Total",
-                        "value": total,
-                        "value-unit": "integer",
-                    },
-                    {
-                        "icon": "percent",
-                        "label": "Low",
-                        "value": low,
-                        "value-unit": "integer",
-                    },
-                    {
-                        "icon": "percent",
-                        "label": "Medium",
-                        "value": medium,
-                        "value-unit": "integer",
-                    },
-                    {
-                        "icon": "percent",
-                        "label": "High",
-                        "value": high,
-                        "value-unit": "integer",
-                    },
-                    {
-                        "icon": "percent",
-                        "label": "Critical",
-                        "value": critical,
-                        "value-unit": "integer",
-                    },     
-                                     
-                ],
-                "cache_scope": "org",
-            }
-        )
-    else:
-        return jsonify_data(
+    auth = get_jwt() 
+    if auth == "apples":
+        print(f'authentication in APP ={auth}')
+        # data = get_json(DashboardTileSchema())
+        data = {'tile_id':'test-summary'}
+        # print (green(data["tile_id"],bold=True))     
+        if data["tile_id"] == "test-summary":
+        #    total , low, medium, high, critical = cv140_ec()
+            return jsonify_data(
             {
-                "observed_time": {
-                    "start_time": "2020-12-28T04:33:00.000Z",
-                    "end_time": "2021-01-27T04:33:00.000Z",
-                },
-                "valid_time": {
-                    "start_time": "2021-01-27T04:33:00.000Z",
-                    "end_time": "2021-01-27T04:38:00.000Z",
-                },
-                "key_type": "timestamp",
-                "data": [
-                    {"key": 1611731572, "value": 13},
-                    {"key": 1611645172, "value": 20},
-                    {"key": 1611558772, "value": 5},
-                    {"key": 1611431572, "value": 13},
-                    {"key": 1611345172, "value": 20},
-                    {"key": 1611258772, "value": 5},
-                    {"key": 1611131572, "value": 13},
-                    {"key": 1611045172, "value": 20},
-                    {"key": 1610958772, "value": 5},
-                    {"key": 1610831572, "value": 13},
-                    {"key": 1610745172, "value": 20},
-                    {"key": 1610658772, "value": 5},
-                    {"key": 1610531572, "value": 13},
-                    {"key": 1610445172, "value": 20},
-                    {"key": 1610358772, "value": 5},
-                ],
-                "cache_scope": "org",
-            }
-        )
+                    "observed_time": {
+                        "start_time": "2020-12-19T00:07:00.000Z",
+                        "end_time": "2021-01-18T00:07:00.000Z",
+                    },
+                    "valid_time": {
+                        "start_time": "2021-01-18T00:07:00.000Z",
+                        "end_time": "2021-01-18T00:12:00.000Z",
+                    },
+                    "data": [
+                        {
+                            "icon": "brain",
+                            "label": "Total",
+                            "value": 10,
+                            "value-unit": "integer",
+                        },
+                        {
+                            "icon": "percent",
+                            "label": "Low",
+                            "value": 11,
+                            "value-unit": "integer",
+                        },
+                        {
+                            "icon": "percent",
+                            "label": "Medium",
+                            "value": 12,
+                            "value-unit": "integer",
+                        },
+                        {
+                            "icon": "percent",
+                            "label": "High",
+                            "value": 13,
+                            "value-unit": "integer",
+                        },
+                        {
+                            "icon": "percent",
+                            "label": "Critical",
+                            "value": 14,
+                            "value-unit": "integer",
+                        },     
+                                        
+                    ],
+                    "cache_scope": "org",
+                }
+            )
+    # else:
+    #     return jsonify_data(
+    #         {
+    #             "observed_time": {
+    #                 "start_time": "2020-12-28T04:33:00.000Z",
+    #                 "end_time": "2021-01-27T04:33:00.000Z",
+    #             },
+    #             "valid_time": {
+    #                 "start_time": "2021-01-27T04:33:00.000Z",
+    #                 "end_time": "2021-01-27T04:38:00.000Z",
+    #             },
+    #             "key_type": "timestamp",
+    #             "data": [
+    #                 {"key": 1611731572, "value": 13},
+    #                 {"key": 1611645172, "value": 20},
+    #                 {"key": 1611558772, "value": 5},
+    #                 {"key": 1611431572, "value": 13},
+    #                 {"key": 1611345172, "value": 20},
+    #                 {"key": 1611258772, "value": 5},
+    #                 {"key": 1611131572, "value": 13},
+    #                 {"key": 1611045172, "value": 20},
+    #                 {"key": 1610958772, "value": 5},
+    #                 {"key": 1610831572, "value": 13},
+    #                 {"key": 1610745172, "value": 20},
+    #                 {"key": 1610658772, "value": 5},
+    #                 {"key": 1610531572, "value": 13},
+    #                 {"key": 1610445172, "value": 20},
+    #                 {"key": 1610358772, "value": 5},
+    #             ],
+    #             "cache_scope": "org",
+    #         }
+    #     )
          
 
 @app.route('/health', methods=['POST'])
@@ -183,5 +180,5 @@ def health():
     
 if __name__ == "__main__":
     app.secret_key = os.urandom(12)
-    app.run(debug=True)
+    app.run(port=5577,debug=True)
     
