@@ -42,9 +42,14 @@ def get_jwt():
         DecodeError: 'Wrong JWT structure'
     }
     token = get_auth_token()
+    # added pprint to trace token arriving from POST
     print(f'authentcation in GET_JWT ={token}')
     try:
-        return (token)
+#    NOW ADD FUNCTION TO DECODE JWT AND SECRET PATRICKS VIDEO
+      result = (jwt.decode(token,'JEQ3o2Vw0kQnQdG3dekOvEdI7NYEqov0DJGSAyDkhopfy1eUgDIIhTOVNyj5UO31')['key'])
+      print(f'Cyber Vision Token is: ', {result})
+    #   NOW CHECK FOR MATCH INSIDE THE APP ROUTE
+      return (result)
     except tuple(expected_errors) as error:
         raise AuthorizationError(expected_errors[error.__class__])
 

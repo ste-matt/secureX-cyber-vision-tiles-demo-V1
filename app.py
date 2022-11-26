@@ -86,7 +86,8 @@ def tiles():
 @app.route("/tiles/tile-data", methods=["POST"])
 def tile_data():
     auth = get_jwt() 
-    if auth == "apples":
+    # auth = 'apples'
+    if auth == "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb":
         print(f'authentication in APP ={auth}')
         # data = get_json(DashboardTileSchema())
         data = {'tile_id':'test-summary'}
