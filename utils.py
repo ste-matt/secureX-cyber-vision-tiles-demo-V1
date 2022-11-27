@@ -2,6 +2,7 @@ from authlib.jose import jwt
 from authlib.jose.errors import BadSignatureError, DecodeError
 from flask import current_app, jsonify, request
 from errors import AuthorizationError, InvalidArgumentError
+from crayons import red,green,yellow,blue
 
 
 
@@ -43,11 +44,11 @@ def get_jwt():
     }
     token = get_auth_token()
     # added pprint to trace token arriving from POST
-    print(f'authentcation in GET_JWT ={token}')
+    print(blue(f'authentcation in GET_JWT ={token}'))
     try:
 #    NOW ADD FUNCTION TO DECODE JWT AND SECRET PATRICKS VIDEO
       result = (jwt.decode(token,'JEQ3o2Vw0kQnQdG3dekOvEdI7NYEqov0DJGSAyDkhopfy1eUgDIIhTOVNyj5UO31')['key'])
-      print(f'Cyber Vision Token is: ', {result})
+      print((f'Cyber Vision Token is: ', {result}))
     #   NOW CHECK FOR MATCH INSIDE THE APP ROUTE
       return (result)
     except tuple(expected_errors) as error:
