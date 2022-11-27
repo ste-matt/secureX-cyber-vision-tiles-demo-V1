@@ -1,29 +1,80 @@
 import json
 import os
+import urllib3
 
 import requests
 from crayons import *
-from flask import (Flask, abort, flash, jsonify, redirect, render_template,
-                   request, session)
-
+from flask import Flask, abort, flash, jsonify, redirect, render_template,request,session
+from datetime import date,datetime,timedelta
 from schemas import DashboardTileDataSchema, DashboardTileSchema
 from utils import get_json, get_jwt, jsonify_data
 from crayons import red,green,blue,yellow,magenta,cyan
 
-auth_token = "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb"
 
-headers = {"Content-Type": "application/json; charset=utf-8", "x-token-id": auth_token
-           }
+# remove certificate warnings
+urllib3.disable_warnings()
 
-events=[]
+    # URL params for calls
+center_token = "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb"
+center_ip = "172.16.0.140"
+center_port = 443
+center_base_urlV3 = "api/3.0"
+center_base_urlV1 ="api/1.0"
+center_api_construct_event = 'event'
+center_api_construct_risk = 'dashboard/risk-score/devices/counts'
+center_api_construct_events_counts = 'dashboard/vulnerabilities/counts'
+center_api_construct_event_cat = 'dashboard/events/categories'
 
-def cv140_ec():
-    #response=requests.get('https://tod.myddns.me/api/3.0/homepage/dashboard', headers=headers , verify=False)
-    response=requests.get('https://tod.myddns.me/api/3.0/dashboard/events/severities', headers=headers , verify=False)
-    #response=requests.get('https://172.16.0.140/api/3.0/homepage/dashboard', headers=headers , verify=False)
+    # Calculate date 30 days ago for URL queries
+current_date = date.today().isoformat()
+thirty_days_ago = (date.today()-timedelta(days=30)).isoformat()
+    
+    # Set up  various query strings for the calls
+    # params_crit = {'limit': '2000', 'start': '2022-01-01', 'severity': 'veryhigh','severity':'high','category':'Control System Events','category':'Signature Based Detection','category':'Anomaly Detection'}
+    # params_crit = {'limit': '2000', 'start': '2022-01-01','severity':'high','severity':'veryhigh','category':'security'}
+    # params_crit = {'limit':'2000','category':'Cisco Cyber Vision Administration','category':'Security Events','category':'Anomaly Detection'}
+query_string1 = {'limit':'2000','start':thirty_days_ago}
+query_string2 = {'limit':'2000','severity':'veryhigh','category':'Security Events'}
+query_string3 = {'limit': '2000', 'start': thirty_days_ago, 'end': ''}
 
-    payload=response.content
-    json_payload=json.loads(payload)
+    #  Main events call for dashboard numbers for previous 30 days
+def get_events():
+        try:
+            headers = { "x-token-id": center_token }
+            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?",params=query_string1,headers=headers,verify=False)
+            r_get.raise_for_status() #if there are any request errors
+            #raw JSON data response
+            raw_json_data = r_get.json()
+            # print(red(type(raw_json_data)))      
+
+            ev_start = ('Start Date :', query_string1['start'])
+            ev_low = (len([val for data in  raw_json_data for val in data.values() if val == 'Low']))
+            ev_medium = (len([val for data in raw_json_data for val in data.values() if val == 'Medium']))
+            ev_high = (len([val for data in raw_json_data for val in data.values() if val == 'High']))
+            ev_veryhigh = (len([val for data in raw_json_data for val in data.values() if val == 'Very High']))
+
+            return (ev_start ,ev_low,ev_medium,ev_high,ev_veryhigh) 
+
+        except Exception as e:
+            return f"Error when connecting: {e}"
+
+
+    # print(resp)
+# print('+++++++++++++++++++++++')
+# print('Start Date :', query_string1['start'])
+# print('Low       : ',(len([val for data in resp for val in data.values() if val == 'Low'])))
+# print('Medium    : ',(len([val for data in resp for val in data.values() if val == 'Medium'])))
+# print('High      : ',(len([val for data in resp for val in data.values() if val == 'High'])))
+# print('Very High : ',(len([val for data in resp for val in data.values() if val == 'Very High'])))
+# print('+++++++++++++++++++++++')
+
+# def cv140_ec():
+#     #response=requests.get('https://tod.myddns.me/api/3.0/homepage/dashboard', headers=headers , verify=False)
+#     response=requests.get('https://tod.myddns.me/api/3.0/dashboard/events/severities', headers=headers , verify=False)
+#     #response=requests.get('https://172.16.0.140/api/3.0/homepage/dashboard', headers=headers , verify=False)
+
+#     payload=response.content
+#     json_payload=json.loads(payload)
     # values_x = {}
     # values_y = {}
     # values_x =json_payload['event']
@@ -40,7 +91,7 @@ def cv140_ec():
     # critical = events[4]
     # print(total,low,medium,high,critical)    
     # return(json_payload['total'],['low'],['medium'],['high'],['critical)'])
-    return (json_payload['centers'][0]['total'],json_payload['centers'][0]['low'],json_payload['centers'][0]['medium'],json_payload['centers'][0]['high'],json_payload['centers'][0]['critical'])
+    # return (json_payload['centers'][0]['total'],json_payload['centers'][0]['low'],json_payload['centers'][0]['medium'],json_payload['centers'][0]['high'],json_payload['centers'][0]['critical'])
 
 def jsonify_data(data):
     return jsonify({'data': data})
@@ -93,7 +144,8 @@ def tile_data():
         data = {'tile_id':'test-summary'}
         # print (green(data["tile_id"],bold=True))     
         if data["tile_id"] == "test-summary":
-        #    total , low, medium, high, critical = cv140_ec()
+            start , low, medium, high, veryhigh = get_events()
+            print(start ,low ,medium ,high , veryhigh)
             return jsonify_data(
             {
                     "observed_time": {
@@ -107,32 +159,32 @@ def tile_data():
                     "data": [
                         {
                             "icon": "brain",
-                            "label": "Total",
-                            "value": 10,
-                            "value-unit": "integer",
+                            "label": "Since",
+                            "value": start,
+                            "value-unit": "string",
                         },
                         {
                             "icon": "percent",
                             "label": "Low",
-                            "value": 11,
+                            "value": low,
                             "value-unit": "integer",
                         },
                         {
                             "icon": "percent",
                             "label": "Medium",
-                            "value": 12,
+                            "value": medium,
                             "value-unit": "integer",
                         },
                         {
                             "icon": "percent",
                             "label": "High",
-                            "value": 13,
+                            "value": high,
                             "value-unit": "integer",
                         },
                         {
                             "icon": "percent",
                             "label": "Critical",
-                            "value": 14,
+                            "value": veryhigh,
                             "value-unit": "integer",
                         },     
                                         
