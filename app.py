@@ -8,7 +8,7 @@ from flask import (Flask, abort, flash, jsonify, redirect, render_template,
 
 from schemas import DashboardTileDataSchema, DashboardTileSchema
 from utils import get_json, get_jwt, jsonify_data
-from crayons import red,green,blue,yellow,magenta
+from crayons import red,green,blue,yellow,magenta,cyan
 
 auth_token = "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb"
 

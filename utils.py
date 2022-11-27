@@ -2,7 +2,7 @@ from authlib.jose import jwt
 from authlib.jose.errors import BadSignatureError, DecodeError
 from flask import current_app, jsonify, request
 from errors import AuthorizationError, InvalidArgumentError
-from crayons import red,green,yellow,blue
+from crayons import red,green,yellow,blue,cyan
 
 
 
