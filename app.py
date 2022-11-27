@@ -181,11 +181,11 @@ def tile_data():
                 }
             )
     else:
-        # return jsonify_data(
-        #     {
+        return jsonify_data(
+            {
                 
-        #     }
-        # )
+            }
+        )
          
 
 @app.route('/health', methods=['POST'])
