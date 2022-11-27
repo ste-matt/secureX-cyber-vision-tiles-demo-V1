@@ -54,6 +54,20 @@ def get_events():
 
         except Exception as e:
             return f"Error when connecting: {e}"
+  
+def get_risk_count():
+        try:
+            headers = { "x-token-id": center_token }
+            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",headers=headers,verify=False)
+            r_get.raise_for_status() #if there are any request errors
+            #raw JSON data response
+            raw_json_data = r_get.json()
+            print(red(raw_json_data)) 
+            # return(raw_json_data)
+        
+        except Exception as e:
+            return f"Error when connecting: {e}"
+  
 
 def jsonify_data(data):
     return jsonify({'data': data})
@@ -84,12 +98,12 @@ def tiles():
     return jsonify_data(
         [
             {
-                "id": "test-summary",
+                "id": "event-count",
                 "type": "metric_group",
                 "title": "Cyber Vision Events by Category",
                 "periods": ["last_30_days"],
                 "short_description": "CV Events",
-                "description": "A longer description",
+                "description": "Cyber Vision Events for the last 30 days - similar to the Events Dashboard",
                 "tags": ["test"],
             },
 
@@ -103,12 +117,14 @@ def tile_data():
     if auth == "ics-becf2ba10ba7058ffb9651d69df46e8131090c22-d96b3d752a2899c4c4a0895076e944df49005ccb":
         print(red(f'authentication in APP ={auth}'))
         # data = get_json(DashboardTileSchema())
-        data = {'tile_id':'test-summary'}
+        data = {'tile_id':'event-count'}
         # print (green(data["tile_id"],bold=True))     
-        if data["tile_id"] == "test-summary":
+        if data["tile_id"] == "event-count":
             start , low, medium, high, veryhigh = get_events()
-            print(start ,low ,medium ,high , veryhigh)
-            return jsonify_data(
+        get_risk_count()    
+
+
+        return jsonify_data(
             {
                     "observed_time": {
                         "start_time": "2020-12-19T00:07:00.000Z",
@@ -154,38 +170,12 @@ def tile_data():
                     "cache_scope": "org",
                 }
             )
-    # else:
-    #     return jsonify_data(
-    #         {
-    #             "observed_time": {
-    #                 "start_time": "2020-12-28T04:33:00.000Z",
-    #                 "end_time": "2021-01-27T04:33:00.000Z",
-    #             },
-    #             "valid_time": {
-    #                 "start_time": "2021-01-27T04:33:00.000Z",
-    #                 "end_time": "2021-01-27T04:38:00.000Z",
-    #             },
-    #             "key_type": "timestamp",
-    #             "data": [
-    #                 {"key": 1611731572, "value": 13},
-    #                 {"key": 1611645172, "value": 20},
-    #                 {"key": 1611558772, "value": 5},
-    #                 {"key": 1611431572, "value": 13},
-    #                 {"key": 1611345172, "value": 20},
-    #                 {"key": 1611258772, "value": 5},
-    #                 {"key": 1611131572, "value": 13},
-    #                 {"key": 1611045172, "value": 20},
-    #                 {"key": 1610958772, "value": 5},
-    #                 {"key": 1610831572, "value": 13},
-    #                 {"key": 1610745172, "value": 20},
-    #                 {"key": 1610658772, "value": 5},
-    #                 {"key": 1610531572, "value": 13},
-    #                 {"key": 1610445172, "value": 20},
-    #                 {"key": 1610358772, "value": 5},
-    #             ],
-    #             "cache_scope": "org",
-    #         }
-    #     )
+    else:
+        return jsonify_data(
+            {
+                
+            }
+        )
          
 
 @app.route('/health', methods=['POST'])
