@@ -3,7 +3,6 @@ import os
 import urllib3
 
 import requests
-from crayons import *
 from flask import Flask, abort, flash, jsonify, redirect, render_template,request,session
 from datetime import date,datetime,timedelta
 from schemas import DashboardTileDataSchema, DashboardTileSchema
@@ -43,10 +42,8 @@ def get_events():
             headers = { "x-token-id": center_token }
             r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?",params=query_string1,headers=headers,verify=False)
             r_get.raise_for_status() #if there are any request errors
-            #raw JSON data response
             raw_json_data = r_get.json()
-            # print(red(type(raw_json_data)))      
-
+            # Extract events totals and calculate and apply 30 day window
             ev_start = ('Start Date :', query_string1['start'])
             ev_low = (len([val for data in  raw_json_data for val in data.values() if val == 'Low']))
             ev_medium = (len([val for data in raw_json_data for val in data.values() if val == 'Medium']))
@@ -57,41 +54,6 @@ def get_events():
 
         except Exception as e:
             return f"Error when connecting: {e}"
-
-
-    # print(resp)
-# print('+++++++++++++++++++++++')
-# print('Start Date :', query_string1['start'])
-# print('Low       : ',(len([val for data in resp for val in data.values() if val == 'Low'])))
-# print('Medium    : ',(len([val for data in resp for val in data.values() if val == 'Medium'])))
-# print('High      : ',(len([val for data in resp for val in data.values() if val == 'High'])))
-# print('Very High : ',(len([val for data in resp for val in data.values() if val == 'Very High'])))
-# print('+++++++++++++++++++++++')
-
-# def cv140_ec():
-#     #response=requests.get('https://tod.myddns.me/api/3.0/homepage/dashboard', headers=headers , verify=False)
-#     response=requests.get('https://tod.myddns.me/api/3.0/dashboard/events/severities', headers=headers , verify=False)
-#     #response=requests.get('https://172.16.0.140/api/3.0/homepage/dashboard', headers=headers , verify=False)
-
-#     payload=response.content
-#     json_payload=json.loads(payload)
-    # values_x = {}
-    # values_y = {}
-    # values_x =json_payload['event']
-    
-    # values_y = values_x['total']
-
-    # for v in values_y.values():
-    #     events.append(v)
-
-    # total = events[0]
-    # low = events[1]
-    # medium = events[2]      
-    # high = events [3]
-    # critical = events[4]
-    # print(total,low,medium,high,critical)    
-    # return(json_payload['total'],['low'],['medium'],['high'],['critical)'])
-    # return (json_payload['centers'][0]['total'],json_payload['centers'][0]['low'],json_payload['centers'][0]['medium'],json_payload['centers'][0]['high'],json_payload['centers'][0]['critical'])
 
 def jsonify_data(data):
     return jsonify({'data': data})
