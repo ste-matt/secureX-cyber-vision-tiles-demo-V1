@@ -44,7 +44,7 @@ def get_events():
             r_get.raise_for_status() #if there are any request errors
             raw_json_data = r_get.json()
             # Extract events totals and calculate and apply 30 day window
-            ev_start = ('Start Date :', query_string1['start'])
+            ev_start = (query_string1['start'])
             ev_low = (len([val for data in  raw_json_data for val in data.values() if val == 'Low']))
             ev_medium = (len([val for data in raw_json_data for val in data.values() if val == 'Medium']))
             ev_high = (len([val for data in raw_json_data for val in data.values() if val == 'High']))
@@ -146,31 +146,31 @@ def tile_data():
                     },
                     "data": [
                         {
-                            "icon": "brain",
+                            "icon": "clock",
                             "label": "Since",
                             "value": start,
                             "value-unit": "string",
                         },
                         {
-                            "icon": "percent",
+                            "icon": "target",
                             "label": "Low",
                             "value": low,
                             "value-unit": "integer",
                         },
                         {
-                            "icon": "percent",
+                            "icon": "warning",
                             "label": "Medium",
                             "value": medium,
                             "value-unit": "integer",
                         },
                         {
-                            "icon": "percent",
+                            "icon": "malware",
                             "label": "High",
                             "value": high,
                             "value-unit": "integer",
                         },
                         {
-                            "icon": "percent",
+                            "icon": "malicious",
                             "label": "Critical",
                             "value": veryhigh,
                             "value-unit": "integer",
