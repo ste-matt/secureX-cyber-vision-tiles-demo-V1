@@ -104,7 +104,17 @@ def tiles():
                 "periods": ["last_30_days"],
                 "short_description": "CV Events",
                 "description": "Cyber Vision Events for the last 30 days - similar to the Events Dashboard",
-                "tags": ["test"],
+                "tags": ["Cyber Vision"],
+            },
+            {
+                "description": "Cyber Vision Risk numbers - similar to the Risk Main Menu Donut",
+                "periods": ["last_30_days"],
+                "tags": ["Cyber Vision"],
+                "type": "donut_graph",
+                "short_description": "Cyber Vision Risks",
+                "title": "Cyber Vision Risk Values by Category",
+                "default_period": "last_30_days",
+                "id": "risk-count"
             },
 
         ]
@@ -171,11 +181,11 @@ def tile_data():
                 }
             )
     else:
-        return jsonify_data(
-            {
+        # return jsonify_data(
+        #     {
                 
-            }
-        )
+        #     }
+        # )
          
 
 @app.route('/health', methods=['POST'])
