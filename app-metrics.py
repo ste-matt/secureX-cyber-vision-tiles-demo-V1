@@ -141,14 +141,23 @@ def tiles():
                 "description": "Cyber Vision Events for the last 30 days - similar to the Events Dashboard",
                 "tags": ["Cyber Vision"],
             },
-            {
-                "id": "risk-count",
+        
+            {   "id": "nothing",
                 "type": "donut_graph",
-                "title": "Cyber Vision Risk Values by Category",
+                "title": "nothing yet",
                 "periods": ["last_30_days"],
-                "short_description": "Cyber Vision Risks",
-                "description": "Cyber Vision Risk numbers - similar to the Risk Main Menu Donut",
+                "short_description": "nothing yet",
+                "description": "nothing yet",
                 "tags": ["Cyber Vision"],
+            },
+            {
+                "title": "Cyber Vision Risk Values by Category - last 30 days",
+                "description": "Cyber Vision Risk numbers",
+                "periods": ["last_30_days"],
+                "tags": ['Cyber Vision'],
+                "type": "horizontal_bar_chart",
+                "short_description": "Cyber Vision Risks",
+                "id": "risk-count"
             },
 
         ]
@@ -187,7 +196,7 @@ def tile_data():
         
         elif req['tile_id'] == 'risk-count':
             high, medium, low, total = get_risk_count() 
-            return jsonify_data(donut_tile_data_format(high, medium, low, total))
+            return jsonify_data(hz_bar_chart_tile_data_format(high, medium, low, total))
 
     # else: 
     #     print ('ITS NOT')
