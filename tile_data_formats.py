@@ -49,9 +49,8 @@ def metric_tile_data_format(start, low ,medium , high , veryhigh):
 	    )
 
 
-def donut_tile_data_format():
-    return(
-    payload_for_donut = {
+def donut_tile_data_format(high, medium, low, total):
+    return({
     "labels": [
         [
             "Open",

@@ -1,4 +1,3 @@
-import json
 import os
 import urllib3
 
@@ -67,15 +66,36 @@ def get_events():
 def get_risk_count():
         try:
             headers = { "x-token-id": center_token }
-            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",headers=headers,verify=False)
+            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",headers=headers,verify=False, timeout = 6)
             r_get.raise_for_status() #if there are any request errors
-            #raw JSON data response
-            # raw_json_data = r_get.json()
-            # print(red(raw_json_data)) 
-            # return(raw_json_data)
-        
-        except Exception as e:
-            return f"Error when connecting: {e}"
+        except Timeout:
+            print (red('we timed out on URL! - check IP address is live!'+'\n'))
+        else:
+            raw_json_data = r_get.json()
+            # print(type(raw_json_data))
+            # print(json.dumps(raw_json_data,indent = 2))
+            risk_vals=[]
+            # high = 0
+            # medium = 0 
+            # low = 0 
+            # total = 0
+            for val in raw_json_data.values():
+                for key,vl in val.items():
+                    risk_vals.append(vl)
+            high = risk_vals[0]
+            medium = risk_vals[1]
+            low = risk_vals[2]
+            total = risk_vals[3]
+            # print(high, medium, low, total)
+    
+        return (high, medium, low, total)
+
+
+
+
+
+
+
   
 
 def jsonify_data(data):
@@ -115,7 +135,7 @@ def tiles():
             {
                 "id": "event-count",
                 "type": "metric_group",
-                "title": "Cyber Vision Events by Category",
+                "title": "Cyber Vision Events by Category - last 30 days",
                 "periods": ["last_30_days"],
                 "short_description": "CV Events",
                 "description": "Cyber Vision Events for the last 30 days - similar to the Events Dashboard",
@@ -133,30 +153,44 @@ def tiles():
 
         ]
     )
+    # how I did the combined call for all tiles..
+    # if req['tile_id'] == 'vertical_histogram_tile':
+    #     return jsonify_data(payload_for_bar_charts_v)
+    # elif req['tile_id'] == 'horizontal_histogram_tile':
+    #     return jsonify_data(payload_for_bar_charts_h)
+    # elif req['tile_id'] == 'markdown_tile':
+    #     return jsonify_data(markdown_payload)
+    # elif req['tile_id'] == 'test-line-chart-graph':
+    #     return jsonify_data(payload_for_line_chart)
+    # elif req['tile_id'] == 'donut_tile':
+    #     return jsonify_data(payload_for_donut)
+    # elif req['tile_id'] == 'datatable_tile':
+    #     return jsonify_data(payload_for_datatable) 
     
 @app.route("/tiles/tile-data", methods=["POST"])
 #extract and insert data into the tile..
 def tile_data():
+    # print(request.headers)
+    # print(request.json)
     #set a default token to forward..
     auth = center_token
     #use the pulled token from incoming request from secure call and compare with existing
     pulled_token = pull_token()
     if auth  == pulled_token:
+        req = get_json(DashboardTileDataSchema())
         #removed the validation part - here just hard code the tile to push data to based on tile data
-        data = {'tile_id':'event-count'}
-        if data["tile_id"] == "event-count":
-
-        #send the URL forward and extract the returned data values for the tile
+        # data = {'tile_id':'event-count'}
+        if req["tile_id"] == "event-count":
             start , low, medium, high, veryhigh = get_events()
-        # send  data to be formatted for the tile..  
-        return jsonify_data(metric_tile_data_format(start , low , medium , high , veryhigh))
+        # # send  data to be formatted for the tile..  
+            return jsonify_data(metric_tile_data_format(start , low , medium , high , veryhigh))
+        
+        elif req['tile_id'] == 'risk-count':
+            high, medium, low, total = get_risk_count() 
+            return jsonify_data(donut_tile_data_format(high, medium, low, total))
 
-    data = {'tile_id':'risk-count'}
-    if data['tile-id'] =='risk-count':
-        print(get_risk_count())
-
-    else: 
-        print ('ITS NOT')
+    # else: 
+    #     print ('ITS NOT')
          
 
 @app.route('/health', methods=['POST'])
