@@ -1,7 +1,7 @@
 from utils import jsonify
 
-#this file includes the data used in the tile data structures
-def metric_tile_data_format(start, low ,medium , high , veryhigh):
+#this file includes the data used in the tile  delivered data structures
+def metric_tile_data_format_events(start, low ,medium , high , veryhigh):
 	return(
     {
                     "observed_time": {
@@ -49,98 +49,33 @@ def metric_tile_data_format(start, low ,medium , high , veryhigh):
 	    )
 
 
-def donut_tile_data_format(high, medium, low, total):
-    return({
-    "labels": [
-        [
-            "Open",
-            "New",
-            "Closed"
-        ],
-        [
-            "Assigned",
-            "Unassigned"
-        ]
-    ],
-    "valid_time": {
-        "start_time": "2021-04-28T16:48:18.000Z",
-        "end_time": "2021-04-28T17:48:18.000Z"
-    },
-    "tile_id": "donut_tile",
-    "cache_scope": "user",
-    "period": "last_hour",
-    "observed_time": {
-        "start_time": "2021-04-28T16:48:18.000Z",
-        "end_time": "2021-04-28T17:48:18.000Z"
-    },
-    "data": [
-        {
-            "key": 0,
-            "value": 2,
-            "link_uri":"https://www.google.com",
-            "segments": [
-                {
-                    "key": 0,
-                    "link_uri":"https://www.google.com",
-                    "value": 10
-                },
-                {
-                    "key": 1,
-                    "link_uri":"https://www.google.com",
-                    "value": 20
-                }
-            ]
-        },
-        {
-            "key": 1,
-            "value": 10,
-            "link_uri":"https://www.google.com",
-            "segments": [
-                {
-                    "key": 0,
-                    "link_uri":"https://www.google.com",
-                    "value": 8
-                },
-                {
-                    "key": 1,
-                    "link_uri":"https://www.google.com",
-                    "value": 0
-                }
-            ]
-        },
-        {
-            "key": 2,
-            "value": 5,
-            "link_uri":"https://www.google.com",
-            "segments": [
-                {
-                    "key": 0,
-                    "link_uri":"https://www.google.com",
-                    "value": 0
-                },
-                {
-                    "key": 1,
-                    "link_uri":"https://www.google.com",
-                    "value": 0
-                }
-            ]
-        }
-    ]
-})
 
-def hz_bar_chart_tile_data_format(high, medium, low, total):
+def vert_bar_chart_tile_data_format_risk(high, medium, low, total):
     return(
         {
     "valid_time": {
         "start_time": "2021-04-27T18:06:26.000Z",
         "end_time": "2021-04-28T18:06:26.000Z"
     },
-    "tile_id": "horizontal_histogram_tile",
+    "tile_id": "vertical_histogram_tile",
     "keys": [
         {
-            "key": "somethingpat",
-            "label": "something label"
+            "key": "low risk",
+            "label": "Low"
+        },
+        {
+            "key": "medium risk",
+            "label": "Medium"
+        },
+        {
+            "key": "high risk",
+            "label": "High"
+        },
+        {    "key" : "Total",
+             "label" : "Total"
+
         }
+        ,
     ],
     "cache_scope": "user",
     "key_type": "string",
@@ -149,58 +84,78 @@ def hz_bar_chart_tile_data_format(high, medium, low, total):
         "start_time": "2021-04-27T18:06:26.000Z",
         "end_time": "2021-04-28T18:06:26.000Z"
     },
+    "key_type":"string",
+    "color_scale" : "status",
     "data": [
+         
         {
-            "key": "1620597601000",
-            "label": "19:00:00",
-            "value": high,
+            
             "values": [
                 {
-                    "key": "somethingpat",
-                    "value": high,
-                    "tooltip": "something: 30",
-                    "link_uri": "https://www.google.com"
-                }
-            ]
-        },     
-        {
-            "key": "1620511201000",
-            "label": "19:00:00",
-            "value": medium,
-            "values": [
-                {
-                    "key": "somethingpat",
-                    "value": medium,
-                    "tooltip": "something: 10",
-                    "link_uri": "https://www.google.com"
-                }
-            ]
-        },    
-        {
-            "key": "1620624801000",
-            "label": "19:00:00",
-            "value": low,
-            "values": [
-                {
-                    "key": "somethingpat",
+                    "key": "low risk",
                     "value": low,
-                    "tooltip": "something: 10",
-                    "link_uri": "https://www.google.com"
-                }
-            ]
-        },
-        {
-            "key": "1620433333000",
-            "label": "19:00:00",
-            "value": total,
-            "values": [
+                    "link_uri": "https://www.cisco.com"
+                },
                 {
-                    "key": "somethingpat",
-                    "value": total,
-                    "tooltip": "something: 20",
-                    "link_uri": "https://www.google.com"
-                }
-            ]
-        }
+                    "key": "medium risk",
+                    "value": medium,
+                    "link_uri": "https://www.cisco.com"
+                },
+                {
+                    "key": "high risk",
+                    "value": high,
+                    "link_uri": "https://www.cisco.com"
+                },
+            ],
+            "label": "Risk Value by Device Count",
+            "value": total
+        },    
+            
+        
     ]
 })
+
+"""
+def data_table_format_events():
+    # print(f"in tile layout", data)
+    return(
+        {
+    "valid_time": {
+        "start_time": "2021-04-28T17:06:26.000Z",
+        "end_time": "2021-04-28T18:06:26.000Z"
+    },
+    "tile_id": "datatable_tile",
+    "cache_scope": "user",
+    "period": "last_hour",
+    "observed_time": {
+        "start_time": "2021-04-28T17:06:26.000Z",
+        "end_time": "2021-04-28T18:06:26.000Z"
+    },
+    "data": [{
+        "columns": [
+        {
+          "key": "hostname",
+          "label": "Endpoint",
+          "content_type": "linked_text"
+        },
+        {
+          "key": "internal_ips",
+          "label": "Internal IP",
+          "content_type": "text"
+        },
+        {
+          "key": "earliest_activity",
+          "label": "Earlist Activity",
+          "content_type": "timestamp"
+        },
+        {
+          "key": "latest_activity",
+          "label": "Latest Activity",
+          "content_type": "timestamp"
+        }],
+        "rows" : 
+        {"one":"two"}
+        ]
+    }]
+    })
+    """

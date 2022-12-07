@@ -17,7 +17,7 @@ urllib3.disable_warnings()
 
     # URL params for calls
 center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-center_ip = "172.16.0.235"
+center_ip = "172.16.0.239"
 center_port = 443
 center_base_urlV3 = "api/3.0"
 center_base_urlV1 ="api/1.0"
@@ -27,8 +27,8 @@ center_api_construct_events_counts = 'dashboard/vulnerabilities/counts'
 center_api_construct_event_cat = 'dashboard/events/categories'
 
 #     # Calculate date 30 days ago for URL queries
-# current_date = date.today().isoformat()
-# thirty_days_ago = (date.today()-timedelta(days=30)).isoformat()
+current_date = date.today().isoformat()
+thirty_days_ago = (date.today()-timedelta(days=30)).isoformat()
 
 # ev_high = 0
 # count_c = 0
@@ -37,7 +37,7 @@ center_api_construct_event_cat = 'dashboard/events/categories'
 #     # params_crit = {'limit': '2000', 'start': '2022-01-01', 'severity': 'veryhigh','severity':'high','category':'Control System Events','category':'Signature Based Detection','category':'Anomaly Detection'}
 #     # params_crit = {'limit': '2000', 'start': '2022-01-01','severity':'high','severity':'veryhigh','category':'security'}
 #     # params_crit = {'limit':'2000','category':'Cisco Cyber Vision Administration','category':'Security Events','category':'Anomaly Detection'}
-# query_string1 = {'limit':'2000','start':thirty_days_ago}
+query_string1 = {'limit':'2000','start':thirty_days_ago}
 # #This is concatentated with the query string to provide 2 category types... 
 # query_string2 = {'limit':'2000','severity':'high','category':'Cisco Cyber Vision Operations'}
 # query_string4 = {'limit':'2000','severity':'high'}
@@ -73,34 +73,47 @@ center_api_construct_event_cat = 'dashboard/events/categories'
 
 
 
-def get_risk_count():
+
+def get_top_ten_events():
+     #  Main events call for dashboard numbers for previous 30 days
         try:
             headers = { "x-token-id": center_token }
-            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",headers=headers,verify=False, timeout = 6)
-            r_get.raise_for_status() #if there are any request errors
+            r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events&category=Cisco%20Cyber%20Vision%20Operations&category=Cisco%20Cyber%20Vision%20Administration",params=query_string1,headers=headers,verify=False, timeout = 6)
+    # r_get.raise_for_status() #if there are any request errors
         except Timeout:
             print (red('we timed out on URL! - check IP address is live!'+'\n'))
         else:
             raw_json_data = r_get.json()
             # print(type(raw_json_data))
             # print(json.dumps(raw_json_data,indent = 2))
-            risk_vals=[]
-            # high = 0
-            # medium = 0 
-            # low = 0 
-            # total = 0
-            for val in raw_json_data.values():
-                for key,vl in val.items():
-                    risk_vals.append(vl)
-            high = risk_vals[0]
-            medium = risk_vals[1]
-            low = risk_vals[2]
-            total = risk_vals[3]
-            # print(high, medium, low, total)
-    
-        return (high, medium, low, total)
+        
+    # Find the top 10 critical type events.
+        z = 0
+        newlist = []
+        for data in raw_json_data:
+            for keys, values in data.items():
+                            # Ignore finding new components to focus on more important messages 
+                        ignore_new_components = data['message']
+                        if ignore_new_components.find ("New component"): 
+                                if  (keys == 'severity') and (values =='Very High') or (keys == 'severity') and (values == 'High'):
+                                    z = z + 1
+                                    
+                                    ct_list = []
+                                    ct_list.append(z)
+                                        # ct_list.append(data['creation_time'])
+                                        # ct_list.append(data['message'][:148])
+                                    if z <= 10: 
+                                        newlist = ct_list
 
+                                    return newlist 
+                                        # print(ct_list)
+                                        # mess_list ((data['message'][:148]))
+                                        # print (mess_list)
 
-high, medium, low, total = get_risk_count() 
-
-print (f'returned from  func call :  {high}, {low}, {medium}, {total}')
+                                        # zapp = (data['creation_time'],data['message'][:148])
+                                        # print(zapp)
+                                        # print(type(zapp))
+                                        # # return()                                        
+                                            
+output = get_top_ten_events()
+print(output)
