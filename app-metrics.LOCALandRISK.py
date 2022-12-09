@@ -169,7 +169,7 @@ def get_top_ten_events():
                                     + str(raw_json_data[x]["message"][:80])
                                 )
                                 nl.append(a)
-                                # print(nl[x])
+                                print(nl[x])
                             return nl
 
 
@@ -252,10 +252,14 @@ def tile_data():
             )
 
         elif req["tile_id"] == "top-ten-event":
-            nl = get_top_ten_events()
+            full_list = []
+            top10 = []
+            full_list = get_top_ten_events()
+            # print(full_list)
             for g in range(9):
-                print(nl[g])
-            # return jsonify_data()
+                top10.append(full_list[g])
+            # print(f"this is top 10 in calling app", top10)
+            return jsonify_data(data_table_format_events(top10))
 
     # else:
     #     print ('ITS NOT')
