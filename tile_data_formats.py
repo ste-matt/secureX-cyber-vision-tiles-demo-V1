@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+# Cisco Cyber Vision V4.x
+# Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
+#
 from utils import jsonify
 
 # this file includes the data used in the tile  delivered data structures
@@ -96,8 +100,6 @@ def vert_bar_chart_tile_data_format_risk(high, medium, low, total):
 
 
 def data_table_format_events(top10):
-    # for x in range(len(top10)):
-        # print(f"in tile layout", top10[x])
     return {
         "valid_time": {
             "start_time": "2021-04-28T17:06:26.000Z",

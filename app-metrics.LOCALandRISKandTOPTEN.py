@@ -1,3 +1,7 @@
+#!/usr/bin/python3
+# Cisco Cyber Vision V4.x
+# Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
+
 import os
 import urllib3
 import json
@@ -108,13 +112,14 @@ def get_risk_count():
         # print(type(raw_json_data))
         # print(json.dumps(raw_json_data, indent=2))
         risk_vals = []
-        high = 0
-        medium = 0
-        low = 0
-        total = 0
+        # high = 0
+        # medium = 0
+        # low = 0
+        # total = 0
         if raw_json_data == "":
+            print(type(raw_json_data))
             return (0, 0, 0, 0)
-            # total = 0
+        else:
             for val in raw_json_data.values():
                 for key, vl in val.items():
                     risk_vals.append(vl)
@@ -122,9 +127,9 @@ def get_risk_count():
             medium = risk_vals[1]
             low = risk_vals[2]
             total = risk_vals[3]
-        # print(high, medium, low, total)
+            # print(high, medium, low, total)
 
-    return (high, medium, low, total)
+            return (high, medium, low, total)
 
 
 def get_top_ten_events():
@@ -169,6 +174,25 @@ def get_top_ten_events():
                         nl.append(a)
                         nl.reverse()
                 return nl
+
+
+def get_vln_device_counts():
+    #  Main events call for dashboard numbers for previous 30 days
+    try:
+        headers = {"x-token-id": center_token}
+        r_get = requests.get(
+            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_events_counts}",
+            headers=headers,
+            verify=False,
+            timeout=6,
+        )
+    # r_get.raise_for_status() #if there are any request errors
+    except Timeout:
+        print(red("we timed out on URL! - check IP address is live!" + "\n"))
+    else:
+        raw_json_data = r_get.json()
+        print(json.dumps(raw_json_data, indent=2))
+        return
 
 
 def jsonify_data(data):
@@ -258,6 +282,9 @@ def tile_data():
                 top10.append(full_list[g])
             # print(f"this is top 10 in calling app", top10)
             return jsonify_data(data_table_format_events(top10))
+
+        elif req["tile_id"] == "vln-device-count":
+            get_vln_device_counts()
 
     # else:
     #     print ('ITS NOT')

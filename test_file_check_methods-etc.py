@@ -54,43 +54,13 @@ query_string1 = {"limit": "2000"}
 # query_string4 = {'limit':'2000','severity':'high'}
 # query_string3 = {'limit': '2000', 'start': thirty_days_ago, 'end': ''}
 
-#     #  Main events call for dashboard numbers for previous 30 days
-# try:
-#     headers = { "x-token-id": center_token }
-#     r_get = requests.get(f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events",params=query_string2,headers=headers,verify=False, timeout = 6)
-#     # r_get.raise_for_status() #if there are any request errors
-# except Timeout:
-#     print (red('we timed out on URL! - check IP address is live!'+'\n'))
-# else:
-#     raw_json_data = r_get.json()
-#     # print(type(raw_json_data))
-#     # print(json.dumps(raw_json_data,indent = 2))
 
-
-#             # Extract events totals and calculate and apply 30 day window
-#             # ev_start = (query_string1['start'])
-#             # ev_low = (len([val for data in  raw_json_data for val in data.values() if val == 'Low']))
-#             # ev_medium = (len([val for data in raw_json_data for val in data.values() if val == 'Medium']))
-#     ev_high = (len([val for data in raw_json_data for val in data.values() if val == 'High']))
-#     count_c  =(len([val for data in raw_json_data for key,val in data.items() if val == 'Security Events']))
-
-
-#             # ev_veryhigh = (len([val for data in raw_json_data for val in data.values() if val == 'Very High']))
-
-# print(ev_high, count_c)
-
-# print(get_json(DashboardTileDataSchema()))
-
-nl = []
-
-
-def get_top_ten_events():
+def get_vuln_device_counts():
     #  Main events call for dashboard numbers for previous 30 days
     try:
         headers = {"x-token-id": center_token}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events&category=Cisco%20Cyber%20Vision%20Operations&category=Cisco%20Cyber%20Vision%20Administration",
-            params=query_string1,
+            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_events_counts}",
             headers=headers,
             verify=False,
             timeout=6,
@@ -100,47 +70,10 @@ def get_top_ten_events():
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
         raw_json_data = r_get.json()
-        # print(type(raw_json_data))
-        # print(type(raw_json_data))
-        # print(json.dumps(raw_json_data, indent=2))
-
-        # Find the top 10 critical type events.
-        z = 0
-        for data in raw_json_data:
-            for keys, values in data.items():
-
-                nl = []
-                for x in range(len(raw_json_data)):
-                    if (
-                        raw_json_data[x]["severity"] == "High"
-                        or raw_json_data[x]["severity"] == "Very High"
-                    ):
-
-                        a = (
-                            str(raw_json_data[x]["severity"])
-                            + " "
-                            + str(raw_json_data[x]["creation_time"][:19])
-                            + " "
-                            + str(raw_json_data[x]["message"][:40])
-                        )
-                        nl.append(a)
-
-                        nl.reverse()
-                return nl
+        print(json.dumps(raw_json_data, indent=2))
 
 
-BACK = get_top_ten_events()
-for i in range(len(BACK)):
-    print(BACK[i])
-# Ignore finding new components to focus on more important messages
-# ignore_new_components = data["message"]
-# if ignore_new_components.find("New component"):
-# if (
-#     (keys == "severity")
-#     and (values == "Low")
-#     or (keys == "severity")
-#     and (values == "High")
-# ):
 
-# pick out these fields.. and truncate the message to 148 chars as many messages are verbose!
-# print(data["creation_time"], data["message"][:148])
+get_vuln_device_counts()
+# for i in range(len(BACK)):
+# print(BACK[i])
