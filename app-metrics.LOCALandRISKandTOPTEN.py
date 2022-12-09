@@ -159,10 +159,11 @@ def get_top_ten_events():
                     ):
 
                         a = (
-                            str(raw_json_data[x]["severity"])
-                            + " "
+                            "  "
+                            + str(raw_json_data[x]["severity"])
+                            + "  |  "
                             + str(raw_json_data[x]["creation_time"][:19])
-                            + " "
+                            + "  |  "
                             + str(raw_json_data[x]["message"])
                         )
                         nl.append(a)

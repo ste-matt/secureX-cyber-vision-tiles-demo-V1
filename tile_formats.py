@@ -26,8 +26,8 @@ def displayed_tiles():
             "type": "markdown",
             "title": "Cyber Vision Top Ten High and Very High Events",
             "periods": ["last_30_days"],
-            "short_description": "Cyber Vision Top Ten Events - Critical and Very High",
-            "description": "Cyber Vision Top Ten Events",
+            "short_description": "Cyber Vision Last Ten High and Very High Events",
+            "description": "Cyber Vision Last 10 High and Very High Events",
             "tags": ["Cyber Vision"],
         },
     ]
