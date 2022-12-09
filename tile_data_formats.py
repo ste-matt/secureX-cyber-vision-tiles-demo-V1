@@ -96,26 +96,30 @@ def vert_bar_chart_tile_data_format_risk(high, medium, low, total):
 
 
 def data_table_format_events(top10):
-    print(f"in tile layout", top10)
+    # for x in range(len(top10)):
+        # print(f"in tile layout", top10[x])
     return {
-    "valid_time": {
-        "start_time": "2021-04-28T17:06:26.000Z",
-        "end_time": "2021-04-28T18:06:26.000Z"
-    },
-    "tile_id": "markdown_tile",
-    "cache_scope": "user",
-    "period": "last_hour",
-    "observed_time": {
-        "start_time": "2021-04-28T17:06:26.000Z",
-        "end_time": "2021-04-28T18:06:26.000Z"
-    },
-    "data": [
-        "|   |   |   |",
-        "| - | - | - |",
-        "| [interface vlan 1](https://www.cisco.com) | ✔ | Up |",
-        "| [interface vlan 2](https://www.cisco.com) | ✔ | Up |",
-        "| [interface 0/0](https://www.cisco.com) | ✔ | Up |",
-        "| [interface 0/1](https://www.cisco.com) | ✖ | Down |",
-        "| [interface 0/2](https://www.google.com/) | ✖ | Down |"
-    ]
-}
+        "valid_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "tile_id": "markdown_tile",
+        "cache_scope": "user",
+        "period": "last_hour",
+        "observed_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "data": [
+            top10[0] + "\n",
+            top10[1] + "\n",
+            top10[2] + "\n",
+            top10[3] + "\n",
+            top10[4] + "\n",
+            top10[5] + "\n",
+            top10[6] + "\n",
+            top10[7] + "\n",
+            top10[8] + "\n",
+            top10[9] + "\n",
+        ],
+    }

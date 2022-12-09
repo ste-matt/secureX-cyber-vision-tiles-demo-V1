@@ -26,7 +26,7 @@ urllib3.disable_warnings()
 
 # URL params for calls
 center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-center_ip = "172.16.0.234"
+center_ip = "172.16.0.236"
 center_port = 443
 center_base_urlV3 = "api/3.0"
 center_base_urlV1 = "api/1.0"
@@ -46,7 +46,9 @@ thirty_days_ago = (date.today() - timedelta(days=30)).isoformat()
 #     # params_crit = {'limit': '2000', 'start': '2022-01-01', 'severity': 'veryhigh','severity':'high','category':'Control System Events','category':'Signature Based Detection','category':'Anomaly Detection'}
 #     # params_crit = {'limit': '2000', 'start': '2022-01-01','severity':'high','severity':'veryhigh','category':'security'}
 #     # params_crit = {'limit':'2000','category':'Cisco Cyber Vision Administration','category':'Security Events','category':'Anomaly Detection'}
-query_string1 = {"limit": "50", "start": thirty_days_ago}
+# query_string1 = {"limit": "50", "start": thirty_days_ago}
+query_string1 = {"limit": "2000"}
+
 # #This is concatentated with the query string to provide 2 category types...
 # query_string2 = {'limit':'2000','severity':'high','category':'Cisco Cyber Vision Operations'}
 # query_string4 = {'limit':'2000','severity':'high'}
@@ -79,13 +81,12 @@ query_string1 = {"limit": "50", "start": thirty_days_ago}
 
 # print(get_json(DashboardTileDataSchema()))
 
-small_list = []
+nl = []
 
 
 def get_top_ten_events():
     #  Main events call for dashboard numbers for previous 30 days
     try:
-        small_list = []
         headers = {"x-token-id": center_token}
         r_get = requests.get(
             f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events&category=Cisco%20Cyber%20Vision%20Operations&category=Cisco%20Cyber%20Vision%20Administration",
@@ -98,70 +99,48 @@ def get_top_ten_events():
     except Timeout:
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
-        # print(r_get.status_code)
-        data = r_get.json()
-        d = data[1]
-        print(json.dumps(data, indent=2))
-        print(d)
-        for z in range(2):
-            for keys, values in d.items():
-                # Ignore finding new components to focus on more important messages
-                ignore_new_components = d["message"]
-                if ignore_new_components.find("New component"):
+        raw_json_data = r_get.json()
+        # print(type(raw_json_data))
+        # print(type(raw_json_data))
+        # print(json.dumps(raw_json_data, indent=2))
+
+        # Find the top 10 critical type events.
+        z = 0
+        for data in raw_json_data:
+            for keys, values in data.items():
+
+                nl = []
+                for x in range(len(raw_json_data)):
                     if (
-                        (keys == "severity")
-                        and (values == "Very High")
-                        or (keys == "severity")
-                        and (values == "High")
+                        raw_json_data[x]["severity"] == "High"
+                        or raw_json_data[x]["severity"] == "Very High"
                     ):
-                        # pick out these fields.. and truncate the message to 148 chars as many messages are verbose!
-                        # print(d["creation_time"], d["message"][:148])
 
-                        #         # for z in range(100):
-                        small_list.append(d["creation_time"])
-                        small_list.append(d["message"])
+                        a = (
+                            str(raw_json_data[x]["severity"])
+                            + " "
+                            + str(raw_json_data[x]["creation_time"][:19])
+                            + " "
+                            + str(raw_json_data[x]["message"][:40])
+                        )
+                        nl.append(a)
 
-                        #         # print(data)
-                        #         # print(json.dumps(raw_json_data, indent=2))
-                        # print(small_list)
-
-
-#     return small_list
-
-# # for keys, values in data.items():
-# #                         # Ignore finding new components to focus on more important messages
-# #                             ignore_new_components = data['message']
-# #                             if ignore_new_components.find ("New component"):
-# #                                     if  (keys == 'severity') and (values =='Very High') or (keys == 'severity') and (values == 'High'):
-# #                                         z = z + 1
-#                                         if z <= 10:
-#                                         # pick out these fields.. and truncate the message to 148 chars as many messages are verbose!
-#                                             print(data['creation_time'],data['message'][:148])
+                        nl.reverse()
+                return nl
 
 
-get_top_ten_events()
-# print("back in function")
-# for s in range(len(sl)):
-#     print(sl[s])
+BACK = get_top_ten_events()
+for i in range(len(BACK)):
+    print(BACK[i])
+# Ignore finding new components to focus on more important messages
+# ignore_new_components = data["message"]
+# if ignore_new_components.find("New component"):
+# if (
+#     (keys == "severity")
+#     and (values == "Low")
+#     or (keys == "severity")
+#     and (values == "High")
+# ):
 
-
-# SL = []
-# d = {}
-
-
-# def test():
-#     new_list = ["string1", "string2", 3, 4, 5, 6, 7]
-#     d = {"key1": new_list}
-
-#     print(d)
-#     for i in range(5):
-#         SL.append(d["key1"])
-#     return SL
-
-
-# X = test()
-# z = 0
-# print(f"this is the returned value", X)
-
-# for y in range(len(X)):
-#     print(X[y][y])
+# pick out these fields.. and truncate the message to 148 chars as many messages are verbose!
+# print(data["creation_time"], data["message"][:148])

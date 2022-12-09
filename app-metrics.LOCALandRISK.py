@@ -1,6 +1,6 @@
 import os
 import urllib3
-
+import json
 import requests
 from requests.exceptions import Timeout
 from flask import (
@@ -25,7 +25,7 @@ urllib3.disable_warnings()
 
 # URL params for calls
 center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-center_ip = "172.16.0.234"
+center_ip = "172.16.0.236"
 center_port = 443
 center_base_urlV3 = "api/3.0"
 center_base_urlV1 = "api/1.0"
@@ -106,19 +106,22 @@ def get_risk_count():
     else:
         raw_json_data = r_get.json()
         # print(type(raw_json_data))
-        # print(json.dumps(raw_json_data,indent = 2))
+        # print(json.dumps(raw_json_data, indent=2))
         risk_vals = []
-        # high = 0
-        # medium = 0
-        # low = 0
-        # total = 0
-        for val in raw_json_data.values():
-            for key, vl in val.items():
-                risk_vals.append(vl)
-        high = risk_vals[0]
-        medium = risk_vals[1]
-        low = risk_vals[2]
-        total = risk_vals[3]
+        high = 0
+        medium = 0
+        low = 0
+        total = 0
+        if raw_json_data == "":
+            return (0, 0, 0, 0)
+            # total = 0
+            for val in raw_json_data.values():
+                for key, vl in val.items():
+                    risk_vals.append(vl)
+            high = risk_vals[0]
+            medium = risk_vals[1]
+            low = risk_vals[2]
+            total = risk_vals[3]
         # print(high, medium, low, total)
 
     return (high, medium, low, total)
@@ -142,35 +145,29 @@ def get_top_ten_events():
         raw_json_data = r_get.json()
         # print(type(raw_json_data))
         # print(type(raw_json_data))
-        # print(json.dumps(raw_json_data,indent = 2))
+        # print(json.dumps(raw_json_data, indent=2))
 
         # Find the top 10 critical type events.
-        z = 0
+
         for data in raw_json_data:
             for keys, values in data.items():
-                # Ignore finding new components to focus on more important messages
-                ignore_new_components = data["message"]
-                if ignore_new_components.find("New component"):
+                nl = []
+                for x in range(len(raw_json_data)):
                     if (
-                        (keys == "severity")
-                        and (values == "Very High")
-                        or (keys == "severity")
-                        and (values == "High")
+                        raw_json_data[x]["severity"] == "High"
+                        or raw_json_data[x]["severity"] == "Very High"
                     ):
-                        z = z + 1
-                        if z <= 10:
-                            # pick out these fields.. and truncate the message to 148 chars as many messages are verbose!
-                            # print(data["creation_time"], data["message"][:148])
-                            nl = []
-                            for x in range(len(raw_json_data)):
-                                a = (
-                                    str(raw_json_data[x]["creation_time"][:19])
-                                    + " "
-                                    + str(raw_json_data[x]["message"][:80])
-                                )
-                                nl.append(a)
-                                print(nl[x])
-                            return nl
+
+                        a = (
+                            str(raw_json_data[x]["severity"])
+                            + " "
+                            + str(raw_json_data[x]["creation_time"][:19])
+                            + " "
+                            + str(raw_json_data[x]["message"])
+                        )
+                        nl.append(a)
+                        nl.reverse()
+                return nl
 
 
 def jsonify_data(data):
@@ -256,7 +253,7 @@ def tile_data():
             top10 = []
             full_list = get_top_ten_events()
             # print(full_list)
-            for g in range(9):
+            for g in range(10):
                 top10.append(full_list[g])
             # print(f"this is top 10 in calling app", top10)
             return jsonify_data(data_table_format_events(top10))
