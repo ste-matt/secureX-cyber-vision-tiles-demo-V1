@@ -152,7 +152,7 @@ def get_top_ten_events():
         # print(type(raw_json_data))
         # print(json.dumps(raw_json_data, indent=2))
 
-        # Find the top 10 critical type events.
+        # Find and print the top 10 high and very high  events.
 
         for data in raw_json_data:
             for keys, values in data.items():
@@ -163,16 +163,34 @@ def get_top_ten_events():
                         or raw_json_data[x]["severity"] == "Very High"
                     ):
 
-                        a = (
-                            "  "
-                            + str(raw_json_data[x]["severity"])
-                            + "  |  "
-                            + str(raw_json_data[x]["creation_time"][:19])
-                            + "  |  "
-                            + str(raw_json_data[x]["message"])
-                        )
-                        nl.append(a)
-                        nl.reverse()
+                        severity = str(raw_json_data[x]["severity"])
+                        f = len(severity)
+                        if f == 4:
+                            severity = (
+                                severity
+                                + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
+                            )
+                        creation = str(raw_json_data[x]["creation_time"][:19])
+
+                        message = str(raw_json_data[x]["message"])
+                    a = (
+                        " "
+                        + " **"
+                        + "&nbsp;"
+                        + creation
+                        + "**"
+                        + "  |  "
+                        + "**"
+                        + severity
+                        + "**"
+                        + " "
+                        + "  |  "
+                        + "*"
+                        + message
+                        + "*"
+                    )
+                    nl.append(a)
+                    nl.reverse()
                 return nl
 
 
@@ -226,6 +244,16 @@ def test():
 @app.errorhandler(404)
 def not_found(error):
     return render_template("error.html"), 404
+
+
+@app.errorhandler(401)
+def not_found(error):
+    return render_template("error.html"), 401
+
+
+@app.errorhandler(500)
+def not_found(error):
+    return render_template("error.html"), 500
 
 
 @app.route("/tiles", methods=["POST"])

@@ -114,7 +114,7 @@ def data_table_format_events(top10):
             "end_time": "2021-04-28T18:06:26.000Z",
         },
         "data": [
-            "# **" + top10[0] + "**" + "\n",
+            "### " + top10[0] + "\n",
             top10[1] + "\n",
             top10[2] + "\n",
             top10[3] + "\n",
