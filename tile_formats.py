@@ -21,7 +21,7 @@ def displayed_tiles():
             "description": "Cyber Vision Risk numbers",
             "periods": ["last_30_days"],
             "tags": ["Cyber Vision"],
-            "type": "vertical_bar_chart",
+            "type": "horizontal_bar_chart",
             "short_description": "Cyber Vision Risks",
             "id": "risk-count",
         },

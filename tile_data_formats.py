@@ -58,7 +58,7 @@ def vert_bar_chart_tile_data_format_risk(high, medium, low, total):
             "start_time": "2021-04-27T18:06:26.000Z",
             "end_time": "2021-04-28T18:06:26.000Z",
         },
-        "tile_id": "vertical_histogram_tile",
+        "tile_id": "horizontal_histogram_tile",
         "keys": [
             {"key": "low risk", "label": "Low"},
             {"key": "medium risk", "label": "Medium"},
@@ -114,7 +114,7 @@ def data_table_format_events(top10):
             "end_time": "2021-04-28T18:06:26.000Z",
         },
         "data": [
-            "### " + top10[0] + "\n",
+            top10[0] + "\n",
             top10[1] + "\n",
             top10[2] + "\n",
             top10[3] + "\n",
