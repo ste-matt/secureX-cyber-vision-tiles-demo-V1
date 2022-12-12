@@ -43,4 +43,13 @@ def displayed_tiles():
             "title": "Cyber Vision Vulnerable Devices Count per Category",
             "id": "vln-device-count",
         },
+        {
+            "id": "test-markdown",
+            "type": "markdown",
+            "title": "TESTING MARKDOWN TILE",
+            "periods": ["last_30_days"],
+            "short_description": "TESTING MARKDOWN TILE",
+            "description": "TESTING MARKDOWN TILE",
+            "tags": ["Cyber Vision"],
+        },
     ]

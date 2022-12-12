@@ -3,6 +3,7 @@
 # Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
 #
 from utils import jsonify
+import markdown
 
 # this file includes the data used in the tile  delivered data structures
 def metric_tile_data_format_events(start, low, medium, high, veryhigh):
@@ -113,7 +114,7 @@ def data_table_format_events(top10):
             "end_time": "2021-04-28T18:06:26.000Z",
         },
         "data": [
-            top10[0] + "\n",
+            "# **" + top10[0] + "**" + "\n",
             top10[1] + "\n",
             top10[2] + "\n",
             top10[3] + "\n",
@@ -123,5 +124,31 @@ def data_table_format_events(top10):
             top10[7] + "\n",
             top10[8] + "\n",
             top10[9] + "\n",
+        ],
+    }
+
+
+def TESTING():
+    return {
+        "valid_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "tile_id": "markdown_tile",
+        "cache_scope": "user",
+        "period": "last_hour",
+        "observed_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "data": [
+            "# *apples*",
+            "# ba**nan**as" + "\n",
+            "***" + "\n",
+            "hahahaha" + "\n",
+            "***",
+            "[Duck Duck Go](https://duckduckgo.com)" + "\n",
+            "I love supporting the **[EFF](https://eff.org)**",
+            "This is the *[Markdown Guide](https://www.markdownguide.org)*.See the section on [`code`](#code).",
         ],
     }

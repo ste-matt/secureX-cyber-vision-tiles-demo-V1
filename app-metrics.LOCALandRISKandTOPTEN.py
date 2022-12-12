@@ -286,6 +286,9 @@ def tile_data():
         elif req["tile_id"] == "vln-device-count":
             get_vln_device_counts()
 
+        elif req["tile_id"] == "test-markdown":
+            return jsonify_data(TESTING())
+
     # else:
     #     print ('ITS NOT')
 
