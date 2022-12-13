@@ -128,6 +128,62 @@ def data_table_format_events(top10):
     }
 
 
+def donut_data_vln_device_count(vhigh, vmedium, vlow, vcritical, vtotal):
+
+    return {
+        "labels": [["high", "medium", "low", "critical"]],
+        "valid_time": {
+            "start_time": "2021-04-28T16:48:18.000Z",
+            "end_time": "2021-04-28T17:48:18.000Z",
+        },
+        "tile_id": "donut_tile",
+        "cache_scope": "user",
+        "period": "last_hour",
+        "observed_time": {
+            "start_time": "2021-04-28T16:48:18.000Z",
+            "end_time": "2021-04-28T17:48:18.000Z",
+        },
+        "color_scale": "status",
+        "data": [
+            {
+                "key": 0,
+                "value": vhigh,
+                "segments": [
+                    # {"key": 0, "link_uri": "https://www.google.com", "value": 10},
+                ],
+            },
+            {
+                "key": 1,
+                "value": vmedium,
+                "segments": [
+                    # {"key": 0, "link_uri": "https://www.google.com", "value": 8},
+                ],
+            },
+            {
+                "key": 2,
+                "value": vlow,
+                "segments": [
+                    # {"key": 0, "link_uri": "https://www.google.com", "value": 0},
+                ],
+            },
+            {
+                "key": 3,
+                "value": vcritical,
+                "segments": [
+                    # {"key": 0, "link_uri": "https://www.google.com", "value": 0},
+                ],
+            },
+            # {
+            #     "key": 4,
+            #     "value": vtotal,
+            #     "segments": [
+            #         # {"key": 0, "link_uri": "https://www.google.com", "value": 0},
+            #     ],
+            # },
+        ],
+    }
+
+
 def TESTING():
     return {
         "valid_time": {

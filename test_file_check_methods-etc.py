@@ -55,7 +55,7 @@ query_string1 = {"limit": "2000"}
 # query_string3 = {'limit': '2000', 'start': thirty_days_ago, 'end': ''}
 
 
-def get_vuln_device_counts():
+def get_vln_device_counts():
     #  Main events call for dashboard numbers for previous 30 days
     try:
         headers = {"x-token-id": center_token}
@@ -70,10 +70,25 @@ def get_vuln_device_counts():
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
         raw_json_data = r_get.json()
-        print(json.dumps(raw_json_data, indent=2))
+        # print(json.dumps(raw_json_data, indent=2))
+        vln_vals = []
+        if raw_json_data == "":
+            print(type(raw_json_data))
+            return (0, 0, 0, 0)
+        else:
+            for val in raw_json_data.values():
+                for key, vl in val.items():
+                    vln_vals.append(vl)
+                vtotal = vln_vals[0]
+                vlow = vln_vals[1]
+                vmedium = vln_vals[2]
+                vhigh = vln_vals[3]
+                vcritical = vln_vals[4]
+                # print("in called", vhigh, vmedium, vlow, vcritical, vtotal)
+
+                return (vhigh, vmedium, vlow, vcritical, vtotal)
 
 
+vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts()
 
-get_vuln_device_counts()
-# for i in range(len(BACK)):
-# print(BACK[i])
+print("IN FUNC", vhigh, vmedium, vlow, vcritical, vtotal)

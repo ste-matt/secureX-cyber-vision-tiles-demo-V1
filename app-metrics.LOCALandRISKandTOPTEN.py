@@ -209,8 +209,26 @@ def get_vln_device_counts():
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
         raw_json_data = r_get.json()
-        print(json.dumps(raw_json_data, indent=2))
-        return
+        # print(json.dumps(raw_json_data, indent=2))
+        vln_vals = []
+        if raw_json_data == "":
+            print(type(raw_json_data))
+            return (0, 0, 0, 0)
+        else:
+            for val in raw_json_data.values():
+                for key, vl in val.items():
+                    vln_vals.append(vl)
+                vtotal = vln_vals[0]
+                vlow = vln_vals[1]
+                vmedium = vln_vals[2]
+                vhigh = vln_vals[3]
+                vcritical = vln_vals[4]
+                # print("in called", vhigh, vmedium, vlow, vcritical, vtotal)
+
+                return (vhigh, vmedium, vlow, vcritical, vtotal)
+
+
+# vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts()
 
 
 def jsonify_data(data):
@@ -312,7 +330,10 @@ def tile_data():
             return jsonify_data(data_table_format_events(top10))
 
         elif req["tile_id"] == "vln-device-count":
-            get_vln_device_counts()
+            vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts()
+            return jsonify_data(
+                donut_data_vln_device_count(vhigh, vmedium, vlow, vcritical, vtotal)
+            )
 
         elif req["tile_id"] == "test-markdown":
             return jsonify_data(TESTING())
