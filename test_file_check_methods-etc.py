@@ -19,6 +19,7 @@ from schemas import DashboardTileDataSchema, DashboardTileSchema
 from utils import get_json, get_jwt, jsonify_data
 from crayons import red, green, blue, yellow, magenta, cyan
 from tile_data_formats import *
+from operator import itemgetter
 
 
 # remove certificate warnings
@@ -34,6 +35,7 @@ center_api_construct_event = "event"
 center_api_construct_risk = "dashboard/risk-score/devices/counts"
 center_api_construct_events_counts = "dashboard/vulnerabilities/counts"
 center_api_construct_event_cat = "dashboard/events/categories"
+center_api_construct_presets = "presets"
 
 #     # Calculate date 30 days ago for URL queries
 current_date = date.today().isoformat()
@@ -47,7 +49,7 @@ thirty_days_ago = (date.today() - timedelta(days=30)).isoformat()
 #     # params_crit = {'limit': '2000', 'start': '2022-01-01','severity':'high','severity':'veryhigh','category':'security'}
 #     # params_crit = {'limit':'2000','category':'Cisco Cyber Vision Administration','category':'Security Events','category':'Anomaly Detection'}
 # query_string1 = {"limit": "50", "start": thirty_days_ago}
-query_string1 = {"limit": "2000"}
+# query_string1 = {"limit": "2000"}
 
 # #This is concatentated with the query string to provide 2 category types...
 # query_string2 = {'limit':'2000','severity':'high','category':'Cisco Cyber Vision Operations'}
@@ -55,12 +57,15 @@ query_string1 = {"limit": "2000"}
 # query_string3 = {'limit': '2000', 'start': thirty_days_ago, 'end': ''}
 
 
-def get_vln_device_counts():
+#  Main events call for dashboard numbers for previous 30 days
+def all_data():
+
     #  Main events call for dashboard numbers for previous 30 days
     try:
         headers = {"x-token-id": center_token}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_events_counts}",
+            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}",
+            # params=query_string1,
             headers=headers,
             verify=False,
             timeout=6,
@@ -69,26 +74,68 @@ def get_vln_device_counts():
     except Timeout:
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
-        raw_json_data = r_get.json()
+        r = r_get.json()
+        # print(type(raw_json_data))
         # print(json.dumps(raw_json_data, indent=2))
-        vln_vals = []
-        if raw_json_data == "":
-            print(type(raw_json_data))
-            return (0, 0, 0, 0)
-        else:
-            for val in raw_json_data.values():
-                for key, vl in val.items():
-                    vln_vals.append(vl)
-                vtotal = vln_vals[0]
-                vlow = vln_vals[1]
-                vmedium = vln_vals[2]
-                vhigh = vln_vals[3]
-                vcritical = vln_vals[4]
-                # print("in called", vhigh, vmedium, vlow, vcritical, vtotal)
+        # Extract events totals and calculate and apply 30 day window
+        preset_all = ""
+        # print(r[1]["label"])
 
-                return (vhigh, vmedium, vlow, vcritical, vtotal)
+        for k in range(len(r)):
+            if (r[k]["label"]) == "All data":
+                # print(k)
+                # print(r[k]["id"])
+                all_data_var = r[k]["id"]
+
+        headers = {"x-token-id": center_token}
+        all_data_get = requests.get(
+            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}/{all_data_var}/visualisations/vulnerability-list",
+            # params=query_string1,
+            headers=headers,
+            verify=False,
+            timeout=6,
+        )
+
+        r = all_data_get.json()
+        # print(json.dumps(r[0], indent=2))
+        # with open("data.txt", "w") as my_data_file:
+        # my_data_file.write(str(x))
+        # with open("data.json", "w") as f:
+        #     json.dump(x, f)
+        nl = []
+        for d in range(len(r)):
+            # for d in range(20):
+            # print(r[0])
+            length_list = len(r)
+            if r[d]["cvss"] >= 8.0:
+                # print(r[d]["component"])
+                x = [
+                    float(r[d]["cvss"]),
+                    str(r[d]["publishTime"][:10]),
+                    r[d]["cve"],
+                    r[d]["title"],
+                    r[d]["countDeviceAffected"],
+                ]
+                nl.append(x)
+
+        # for f in range(len(nl)):
+        # print(nl[f])
+        # v_list.append(nl[f])
+        # v_list_value = len(nl)
+        # print(len(nl))
+        # return (v_list, v_list_value)
+        # print("Reversed sorted List C based on index 1: % s" % (sorted(C, key=itemgetter(1), reverse=True)))
+        out = sorted(nl, key=itemgetter(0), reverse=True)
+        return out
 
 
-vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts()
+v_list = all_data()
 
-print("IN FUNC", vhigh, vmedium, vlow, vcritical, vtotal)
+# print("in func ", new)
+# v_list = []
+# v_list_value = 0
+# v_list, vlist_value = all_data()
+
+for s in range(len(v_list)):
+    print(v_list[s])
+# print("Total Vuln count above 9.0 rating = ", vlist_value)
