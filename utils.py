@@ -1,3 +1,8 @@
+#!/usr/bin/python3
+# Cisco Cyber Vision V4.x
+# Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
+
+
 from authlib.jose import jwt
 from authlib.jose.errors import BadSignatureError, DecodeError
 from flask import current_app, jsonify, request
