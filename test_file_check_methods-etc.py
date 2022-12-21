@@ -118,12 +118,6 @@ def all_data():
                 ]
                 nl.append(x)
 
-        # for f in range(len(nl)):
-        # print(nl[f])
-        # v_list.append(nl[f])
-        # v_list_value = len(nl)
-        # print(len(nl))
-        # return (v_list, v_list_value)
         # print("Reversed sorted List C based on index 1: % s" % (sorted(C, key=itemgetter(1), reverse=True)))
         out = sorted(nl, key=itemgetter(0), reverse=True)
         return out
@@ -131,11 +125,6 @@ def all_data():
 
 v_list = all_data()
 
-# print("in func ", new)
-# v_list = []
-# v_list_value = 0
-# v_list, vlist_value = all_data()
-
 for s in range(len(v_list)):
     print(v_list[s])
-# print("Total Vuln count above 9.0 rating = ", vlist_value)
+print("Total Vuln count above 8.0 rating = ", (len(v_list)))

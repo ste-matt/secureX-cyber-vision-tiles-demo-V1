@@ -2,6 +2,7 @@
 # Cisco Cyber Vision V4.x
 # Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
 
+from config import center_ip, center_port, center_token
 import os
 import urllib3
 import json
@@ -23,14 +24,16 @@ from utils import get_json, get_jwt, jsonify_data
 from crayons import red, green, blue, yellow, magenta, cyan
 from tile_data_formats import *
 from tile_formats import *
+from operator import itemgetter
+
 
 # remove certificate warnings
 urllib3.disable_warnings()
 
 # URL params for calls
-center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-center_ip = "172.16.0.236"
-center_port = 443
+# center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
+# center_ip = "172.16.0.236"
+# center_port = 443
 center_base_urlV3 = "api/3.0"
 center_base_urlV1 = "api/1.0"
 center_api_construct_event = "event"
@@ -167,12 +170,13 @@ def get_top_ten_events():
                         f = len(severity)
                         if f == 4:
                             severity = (
-                                severity
+                                "&nbsp;&nbsp;"
+                                + severity
                                 + "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"
                             )
                         creation = str(raw_json_data[x]["creation_time"][:19])
 
-                        message = str(raw_json_data[x]["message"])
+                        message = str(raw_json_data[x]["message"][:181])
                     a = (
                         " "
                         + " **"
@@ -190,6 +194,8 @@ def get_top_ten_events():
                         + "*"
                     )
                     nl.append(a)
+                    # out = sorted(nl, key=itemgetter(1), reverse=True)
+                    # print(out)
                     nl.reverse()
                 return nl
 
@@ -324,7 +330,7 @@ def tile_data():
             top10 = []
             full_list = get_top_ten_events()
             # print(full_list)
-            for g in range(10):
+            for g in range(21):
                 top10.append(full_list[g])
             # print(f"this is top 10 in calling app", top10)
             return jsonify_data(data_table_format_events(top10))

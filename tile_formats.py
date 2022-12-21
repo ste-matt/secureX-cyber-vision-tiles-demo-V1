@@ -28,10 +28,10 @@ def displayed_tiles():
         {
             "id": "top-ten-event",
             "type": "markdown",
-            "title": "Cyber Vision Top Ten High and Very High Events",
+            "title": "Cyber Vision Top Twenty Events",
             "periods": ["last_30_days"],
             "short_description": "Cyber Vision High and Very High Events",
-            "description": "Cyber Vision Last 10 High and Very High Events",
+            "description": "Cyber Vision Last 20 High and Very High Events",
             "tags": ["Cyber Vision"],
         },
         {

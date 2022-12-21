@@ -124,6 +124,17 @@ def data_table_format_events(top10):
             top10[7] + "\n",
             top10[8] + "\n",
             top10[9] + "\n",
+            top10[10] + "\n",
+            top10[11] + "\n",
+            top10[12] + "\n",
+            top10[13] + "\n",
+            top10[14] + "\n",
+            top10[15] + "\n",
+            top10[16] + "\n",
+            top10[17] + "\n",
+            top10[18] + "\n",
+            top10[19] + "\n",
+            top10[20] + "\n",
         ],
     }
 
