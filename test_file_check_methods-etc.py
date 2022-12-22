@@ -57,15 +57,12 @@ thirty_days_ago = (date.today() - timedelta(days=30)).isoformat()
 # query_string3 = {'limit': '2000', 'start': thirty_days_ago, 'end': ''}
 
 
-#  Main events call for dashboard numbers for previous 30 days
 def all_data():
-
-    #  Main events call for dashboard numbers for previous 30 days
+    # First we have to find the preset value for ALL data...
     try:
         headers = {"x-token-id": center_token}
         r_get = requests.get(
             f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}",
-            # params=query_string1,
             headers=headers,
             verify=False,
             timeout=6,
@@ -75,18 +72,14 @@ def all_data():
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
     else:
         r = r_get.json()
-        # print(type(raw_json_data))
-        # print(json.dumps(raw_json_data, indent=2))
-        # Extract events totals and calculate and apply 30 day window
         preset_all = ""
-        # print(r[1]["label"])
-
         for k in range(len(r)):
+            # search for 'All data' preset value
             if (r[k]["label"]) == "All data":
                 # print(k)
                 # print(r[k]["id"])
                 all_data_var = r[k]["id"]
-
+        # Once we have the all data preset ID then use it to extract all vuln
         headers = {"x-token-id": center_token}
         all_data_get = requests.get(
             f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}/{all_data_var}/visualisations/vulnerability-list",
@@ -95,36 +88,84 @@ def all_data():
             verify=False,
             timeout=6,
         )
-
+        #  Now organise the data to pull specific values and - here based on CVSS of > 8.0 dtop into new table as fields
         r = all_data_get.json()
-        # print(json.dumps(r[0], indent=2))
-        # with open("data.txt", "w") as my_data_file:
-        # my_data_file.write(str(x))
-        # with open("data.json", "w") as f:
-        #     json.dump(x, f)
         nl = []
         for d in range(len(r)):
-            # for d in range(20):
-            # print(r[0])
-            length_list = len(r)
             if r[d]["cvss"] >= 8.0:
-                # print(r[d]["component"])
                 x = [
                     float(r[d]["cvss"]),
+                    #  Trim the length of the date
                     str(r[d]["publishTime"][:10]),
                     r[d]["cve"],
                     r[d]["title"],
                     r[d]["countDeviceAffected"],
                 ]
                 nl.append(x)
-
+        #  Order the table by CVSS value and then reverse so highest is top of list
         # print("Reversed sorted List C based on index 1: % s" % (sorted(C, key=itemgetter(1), reverse=True)))
-        out = sorted(nl, key=itemgetter(0), reverse=True)
-        return out
+        vuln_list = sorted(nl, key=itemgetter(0), reverse=True)
+        return vuln_list
 
 
-v_list = all_data()
+Z = all_data()
+X = vuln_table_data(Z)
 
-for s in range(len(v_list)):
-    print(v_list[s])
-print("Total Vuln count above 8.0 rating = ", (len(v_list)))
+print(json.dumps(X, indent=2))
+# print(X)
+
+
+def vuln_table_data(Z):
+    v_list = Z
+
+    key_list = ["CVSS", "date", "CVE", "small_message", "dev_impacted"]
+
+    return {
+        "valid_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "cache_scope": "user",
+        "period": "last_hour",
+        "observed_time": {
+            "start_time": "2021-04-28T17:06:26.000Z",
+            "end_time": "2021-04-28T18:06:26.000Z",
+        },
+        "data": {
+            "columns": [
+                {"key": "CVSS", "label": "Severity", "content_type": "filter_text"},
+                {"key": "date", "label": "Date Discovered", "content_type": "text"},
+                {
+                    "key": "CVE",
+                    "label": "CVE",
+                    "content_type": "text",
+                },
+                {
+                    "key": "small_message",
+                    "label": "About",
+                    "content_type": "text",
+                },
+                {
+                    "key": "dev_impacted",
+                    "label": "Devices Impacted",
+                    "content_type": "text",
+                },
+            ],
+            "rows": [
+                {
+                    "CVSS": "8.9",
+                    "date": "22-10-22",
+                    "CVE": "CVW-2017-0659",
+                    "small_message": "Modicon controller bug",
+                    "dev_impacted": "2",
+                },
+                {
+                    "CVSS": "10.0",
+                    "date": "1234567",
+                    "CVE": "CVE-2020-0659",
+                    "small_message": "siemens bug",
+                    "dev_impacted": "1",
+                },
+            ],
+        },
+    }

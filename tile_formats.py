@@ -44,13 +44,13 @@ def displayed_tiles():
             "id": "vln-device-count",
         },
         {
+            "id": "top-vulnerable",
             "description": "Top Vulnerabilities by Severity",
             "periods": ["last_30_days"],
             "tags": ["Cyber Vision"],
-            "type": "donut_graph",
+            "type": "data_table",
             "short_description": "Cyber Vision Vulnerabilities",
             "title": "Top Vulnerabilities",
-            "id": "top-vulnerability",
         },
         {
             "id": "test-markdown",
