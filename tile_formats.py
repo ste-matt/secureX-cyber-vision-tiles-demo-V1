@@ -10,14 +10,14 @@ def displayed_tiles():
         {
             "id": "event-count",
             "type": "metric_group",
-            "title": "Cyber Vision Events by Category - last 30 days",
+            "title": "Events by Category - last 30 days",
             "periods": ["last_30_days"],
             "short_description": "Cyber Vision Event Counts",
             "description": "Cyber Vision Events for the last 30 days - similar to the Events Dashboard",
             "tags": ["Cyber Vision"],
         },
         {
-            "title": "Cyber Vision Risk by Device",
+            "title": "Risk Count",
             "description": "Cyber Vision Risk numbers",
             "periods": ["last_30_days"],
             "tags": ["Cyber Vision"],
@@ -28,10 +28,10 @@ def displayed_tiles():
         {
             "id": "top-ten-event",
             "type": "markdown",
-            "title": "Cyber Vision Top Twenty Events By Most Recent",
+            "title": "Top Twenty Events By Most Recent",
             "periods": ["last_30_days"],
             "short_description": "Cyber Vision High and Very High Events",
-            "description": "Cyber Vision Last 20 High and Very High Events",
+            "description": "Last 20 High and Very High Events",
             "tags": ["Cyber Vision"],
         },
         {
@@ -40,7 +40,7 @@ def displayed_tiles():
             "tags": ["Cyber Vision"],
             "type": "donut_graph",
             "short_description": "Cyber Vision Vulnerable Device Count",
-            "title": "Cyber Vision Vulnerable Devices Count per Category",
+            "title": "Vulnerable Devices Count per Category",
             "id": "vln-device-count",
         },
         {
@@ -49,7 +49,7 @@ def displayed_tiles():
             "tags": ["Cyber Vision"],
             "type": "donut_graph",
             "short_description": "Cyber Vision Vulnerabilities",
-            "title": "Cyber Vision Top Vulnerabilities",
+            "title": "Top Vulnerabilities",
             "id": "top-vulnerability",
         },
         {
