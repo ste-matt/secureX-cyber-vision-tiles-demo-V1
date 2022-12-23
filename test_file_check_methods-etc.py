@@ -162,6 +162,7 @@ def vuln_table_data(Z):
             ],
             "rows": [
                 res
+                # This is an example of the dictionary per line entry format.. created dynamically in the results table
                 # {
                 #     "CVSS": "8.9",
                 #     "date": "22-10-22",
