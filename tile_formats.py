@@ -50,7 +50,7 @@ def displayed_tiles():
             "tags": ["Cyber Vision"],
             "type": "data_table",
             "short_description": "Cyber Vision Vulnerabilities",
-            "title": "Top Vulnerabilities",
+            "title": "Top Vulnerabilities Filter by Severity",
         },
         {
             "id": "test-markdown",

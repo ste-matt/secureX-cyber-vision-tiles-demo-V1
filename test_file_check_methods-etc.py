@@ -104,20 +104,23 @@ def all_data():
                 ]
                 nl.append(x)
         #  Order the table by CVSS value and then reverse so highest is top of list
-        # print("Reversed sorted List C based on index 1: % s" % (sorted(C, key=itemgetter(1), reverse=True)))
         vuln_list = sorted(nl, key=itemgetter(0), reverse=True)
         return vuln_list
 
 
-def vuln_table_data(Z):
-    v_list = Z
+def vuln_table_data(vuln_data):
+    # we need to merge the dictionary keys which are also the table headings , with the returned values
+    # so we have to create a dictionay entry for every line for the table.. these loops process the incoming lists and join the keys to create
+    # a dict entry for each line..we pass this back as result set..
+    v_list = vuln_data
+    #  list of the keys to merge to create the dict entries
     k_list = ["CVSS", "date", "CVE", "small_message", "dev_impacted"]
-    res = []
+    d_results = []
     w = 0
     for idx in range(len(v_list) - 1):
         idx = idx + 1
         w == 0
-        res.append(
+        d_results.append(
             {
                 k_list[0]: v_list[idx][w],
                 k_list[1]: v_list[idx][w + 1],
@@ -126,8 +129,6 @@ def vuln_table_data(Z):
                 k_list[4]: v_list[idx][w + 4],
             }
         )
-    print(type(res))
-    print(type(res[0]))
 
     return {
         "valid_time": {
@@ -161,7 +162,8 @@ def vuln_table_data(Z):
                 },
             ],
             "rows": [
-                res
+                d_results
+                #
                 # This is an example of the dictionary per line entry format.. created dynamically in the results table
                 # {
                 #     "CVSS": "8.9",
@@ -183,10 +185,7 @@ def vuln_table_data(Z):
 
 
 X = all_data()
-
 D = vuln_table_data(X)
 print("D equals :", type(D))
 
-print(D)
-
-print(json.dumps(D, indent=2))
+# print(json.dumps(D, indent=2))

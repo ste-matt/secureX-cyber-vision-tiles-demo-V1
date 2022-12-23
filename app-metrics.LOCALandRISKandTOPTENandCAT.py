@@ -281,7 +281,6 @@ def get_vuln_counts():
                 ]
                 nl.append(x)
         #  Order the table by CVSS value and then reverse so highest is top of list
-        # print("Reversed sorted List C based on index 1: % s" % (sorted(C, key=itemgetter(1), reverse=True)))
         vuln_list = sorted(nl, key=itemgetter(0), reverse=True)
         return vuln_list
 
@@ -301,6 +300,8 @@ def pull_token():
 
 
 app = Flask(__name__)
+# This forces return of data to secure X in recieved dictionary order.. otherwise its alphabetical in jsonify
+app.config["JSON_SORT_KEYS"] = False
 
 
 @app.route("/")
@@ -392,7 +393,9 @@ def tile_data():
 
         elif req["tile_id"] == "top-vulnerable":
             vuln_list = get_vuln_counts()
-            return jsonify_data(vuln_table_data(vuln_list))
+            data_for_table = vuln_table_data(vuln_list)
+            print(json.dumps(data_for_table, indent=2))
+            return jsonify_data(data_for_table)
 
         elif req["tile_id"] == "test-markdown":
             return jsonify_data(TESTING())
