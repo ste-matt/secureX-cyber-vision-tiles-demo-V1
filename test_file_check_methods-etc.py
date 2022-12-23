@@ -18,7 +18,8 @@ from datetime import date, datetime, timedelta
 from schemas import DashboardTileDataSchema, DashboardTileSchema
 from utils import get_json, get_jwt, jsonify_data
 from crayons import red, green, blue, yellow, magenta, cyan
-from tile_data_formats import *
+
+# from tile_data_formats import *
 from operator import itemgetter
 
 
@@ -108,17 +109,25 @@ def all_data():
         return vuln_list
 
 
-Z = all_data()
-X = vuln_table_data(Z)
-
-print(json.dumps(X, indent=2))
-# print(X)
-
-
 def vuln_table_data(Z):
     v_list = Z
-
-    key_list = ["CVSS", "date", "CVE", "small_message", "dev_impacted"]
+    k_list = ["CVSS", "date", "CVE", "small_message", "dev_impacted"]
+    res = []
+    w = 0
+    for idx in range(len(v_list) - 1):
+        idx = idx + 1
+        w == 0
+        res.append(
+            {
+                k_list[0]: v_list[idx][w],
+                k_list[1]: v_list[idx][w + 1],
+                k_list[2]: v_list[idx][w + 2],
+                k_list[3]: v_list[idx][w + 3],
+                k_list[4]: v_list[idx][w + 4],
+            }
+        )
+    print(type(res))
+    print(type(res[0]))
 
     return {
         "valid_time": {
@@ -152,20 +161,31 @@ def vuln_table_data(Z):
                 },
             ],
             "rows": [
-                {
-                    "CVSS": "8.9",
-                    "date": "22-10-22",
-                    "CVE": "CVW-2017-0659",
-                    "small_message": "Modicon controller bug",
-                    "dev_impacted": "2",
-                },
-                {
-                    "CVSS": "10.0",
-                    "date": "1234567",
-                    "CVE": "CVE-2020-0659",
-                    "small_message": "siemens bug",
-                    "dev_impacted": "1",
-                },
+                res
+                # {
+                #     "CVSS": "8.9",
+                #     "date": "22-10-22",
+                #     "CVE": "CVW-2017-0659",
+                #     "small_message": "Modicon controller bug",
+                #     "dev_impacted": "2",
+                # },
+                # {
+                #     "CVSS": "10.0",
+                #     "date": "1234567",
+                #     "CVE": "CVE-2020-0659",
+                #     "small_message": "siemens bug",
+                #     "dev_impacted": "1",
+                # },
             ],
         },
     }
+
+
+X = all_data()
+
+D = vuln_table_data(X)
+print("D equals :", type(D))
+
+print(D)
+
+print(json.dumps(D, indent=2))

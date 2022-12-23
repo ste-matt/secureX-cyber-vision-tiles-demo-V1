@@ -200,9 +200,9 @@ def vuln_table_data(vuln_list):
     # for s in range(len(v_list)):
     #     pass
     #     print(v_list[s])
-    print("Total Vuln count above 8.0 rating = ", (len(v_list)))
+    # print("Total Vuln count above 8.0 rating = ", (len(v_list)))
     row_count = len(v_list)
-    print(row_count)
+    # print(row_count)
     return {
         "valid_time": {
             "start_time": "2021-04-28T17:06:26.000Z",
