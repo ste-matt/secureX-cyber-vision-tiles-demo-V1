@@ -25,6 +25,7 @@ from crayons import red, green, blue, yellow, magenta, cyan
 from tile_data_formats import *
 from tile_formats import *
 from operator import itemgetter
+from requests_toolbelt.utils import dump
 
 
 # remove certificate warnings
@@ -211,6 +212,10 @@ def get_vln_device_counts():
             verify=False,
             timeout=6,
         )
+        # USE TO DUMP FULL HTTP EXCHANGE TO CLIENT>> TOOLBELT IMPORT...
+        # print(green("OUTGOING TO CV V_COUNT"))
+        # dumpdata = dump.dump_all(r_get)
+        # print(dumpdata.decode("utf-8"))
     # r_get.raise_for_status() #if there are any request errors
     except Timeout:
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
@@ -245,6 +250,7 @@ def get_vuln_counts():
             verify=False,
             timeout=6,
         )
+
     # r_get.raise_for_status() #if there are any request errors
     except Timeout:
         print(red("we timed out on URL! - check IP address is live!" + "\n"))
@@ -352,6 +358,7 @@ def tiles():
 @app.route("/tiles/tile-data", methods=["POST"])
 # extract and insert data into the tile..
 def tile_data():
+    # print(red("INCOMING HEADERS"))
     # print(request.headers)
     # print(request.json)
     # set a default token to forward..
@@ -394,7 +401,7 @@ def tile_data():
         elif req["tile_id"] == "top-vulnerable":
             vuln_list = get_vuln_counts()
             data_for_table = vuln_table_data(vuln_list)
-            print(json.dumps(data_for_table, indent=2))
+            # print(json.dumps(data_for_table, indent=2))
             return jsonify_data(data_for_table)
 
         elif req["tile_id"] == "test-markdown":
