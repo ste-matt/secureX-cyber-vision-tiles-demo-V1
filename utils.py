@@ -2,13 +2,30 @@
 # Cisco Cyber Vision V4.x
 # Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
 
-
+import base64
+import json
 from authlib.jose import jwt
 from authlib.jose.errors import BadSignatureError, DecodeError
 from flask import current_app, jsonify, request
 from errors import AuthorizationError, InvalidArgumentError
-from crayons import red,green,yellow,blue,cyan
+from crayons import red, green, yellow, blue, cyan
 
+
+def extract_CV_payload(token_in):
+
+    full = token_in
+    extract_payload = full.split(".")
+    pad_payload = str(extract_payload[1]) + "=="
+    payload_to_bytes = base64.b64decode(pad_payload)
+    payload_string = payload_to_bytes.decode("ascii")
+    payload_dict = json.loads(payload_string)
+
+    CV_values = [payload_dict["CyberVision_IP"], payload_dict["CyberVision_Key"]]
+
+    CV_IP = CV_values[0]
+    CV_Key = CV_values[1]
+    # print(CV_IP, CV_Key)
+    return (CV_IP, CV_Key)
 
 
 def get_auth_token():
@@ -20,12 +37,12 @@ def get_auth_token():
     any way, replaced by another function, or even removed from the module.
     """
     expected_errors = {
-        KeyError: 'Authorization header is missing',
-        AssertionError: 'Wrong authorization type'
+        KeyError: "Authorization header is missing",
+        AssertionError: "Wrong authorization type",
     }
     try:
-        scheme, token = request.headers['Authorization'].split()
-        assert scheme.lower() == 'bearer'
+        scheme, token = request.headers["Authorization"].split()
+        assert scheme.lower() == "bearer"
         return token
     except tuple(expected_errors) as error:
         raise AuthorizationError(expected_errors[error.__class__])
@@ -42,20 +59,22 @@ def get_jwt():
     """
 
     expected_errors = {
-        KeyError: 'Wrong JWT payload structure',
-        TypeError: '<SECRET_KEY> is missing',
-        BadSignatureError: 'Failed to decode JWT with provided key',
-        DecodeError: 'Wrong JWT structure'
+        KeyError: "Wrong JWT payload structure",
+        TypeError: "<SECRET_KEY> is missing",
+        BadSignatureError: "Failed to decode JWT with provided key",
+        DecodeError: "Wrong JWT structure",
     }
     token = get_auth_token()
     # added pprint to trace token arriving from POST
-    print(blue(f'authentcation in GET_JWT ={token}'))
+    print(blue(f"authentcation in GET_JWT ={token}"))
     try:
-#    NOW ADD FUNCTION TO DECODE JWT AND SECRET PATRICKS VIDEO
-      result = (jwt.decode(token,'JEQ3o2Vw0kQnQdG3dekOvEdI7NYEqov0DJGSAyDkhopfy1eUgDIIhTOVNyj5UO31')['key'])
-      print((f'Cyber Vision Token is: ', {result}))
-    #   NOW CHECK FOR MATCH INSIDE THE APP ROUTE
-      return (result)
+        #    NOW ADD FUNCTION TO DECODE JWT AND SECRET PATRICKS VIDEO
+        result = jwt.decode(
+            token, "JEQ3o2Vw0kQnQdG3dekOvEdI7NYEqov0DJGSAyDkhopfy1eUgDIIhTOVNyj5UO31"
+        )["key"]
+        print((f"Cyber Vision Token is: ", {result}))
+        #   NOW CHECK FOR MATCH INSIDE THE APP ROUTE
+        return result
     except tuple(expected_errors) as error:
         raise AuthorizationError(expected_errors[error.__class__])
 
@@ -71,17 +90,18 @@ def get_json(schema):
     """
     data = request.get_json(force=True, silent=True, cache=False)
 
-    '''
+    """
     message = schema.validate(data)
 
     if message:
         raise InvalidArgumentError(message)
-    '''
+    """
     return data
 
 
 def jsonify_data(data):
-    return jsonify({'data': data})
+    return jsonify({"data": data})
+
 
 def jsonify_errors(data):
-    return jsonify({'errors': [data]})
+    return jsonify({"errors": [data]})
