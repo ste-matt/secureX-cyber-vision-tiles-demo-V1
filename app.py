@@ -2,7 +2,6 @@
 # Cisco Cyber Vision V4.x
 # Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
 
-from config import center_ip, center_port, center_token
 import os
 import urllib3
 import json
@@ -266,9 +265,9 @@ def get_vuln_counts(CV_IP, CV_Key):
                 # print(r[k]["id"])
                 all_data_var = r[k]["id"]
         # Once we have the all data preset ID then use it to extract all vuln
-        headers = {"x-token-id": center_token}
+        headers = {"x-token-id": CV_Key}
         all_data_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}/{all_data_var}/visualisations/vulnerability-list",
+            f"https://{CV_IP}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}/{all_data_var}/visualisations/vulnerability-list",
             # params=query_string1,
             headers=headers,
             verify=False,
