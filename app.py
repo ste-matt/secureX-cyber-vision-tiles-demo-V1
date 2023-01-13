@@ -361,8 +361,6 @@ def tile_data():
     # if auth == pulled_token:
 
     req = get_json(DashboardTileDataSchema())
-    # removed the validation part - here just hard code the tile to push data to based on tile data
-    # data = {'tile_id':'event-count'}
     if req["tile_id"] == "event-count":
         start, low, medium, high, veryhigh = get_events(CV_IP, CV_Key)
         # # send  data to be formatted for the tile..
@@ -372,10 +370,11 @@ def tile_data():
 
     elif req["tile_id"] == "risk-count":
         high, medium, low = get_risk_count(CV_IP,CV_Key)
-        if high == 0 & medium == 0 & low == 0:
-            high = 0
-            medium = 0
-            low = 0
+        # if high == 0 & medium == 0 & low == 0:
+        #     high = 0
+        #     medium = 0
+        #     low = 0
+        print (red(high , medium , low))
         total = high + medium + low
         return jsonify_data(
             vert_bar_chart_tile_data_format_risk(high, medium, low, total)
