@@ -2,9 +2,17 @@
 # Cisco Cyber Vision V4.x
 # Version 1.0 - 2022-11-24 - Steve Matthews (stmatthe@cisco.com)
 #
-from utils import jsonify
 import markdown
 import json
+from flask import jsonify
+
+
+def jsonify_data(data):
+    return jsonify({"data": data})
+
+
+def jsonify_errors(data):
+    return jsonify({"errors": [data]})
 
 # this file includes the data used in the tile  delivered data structures
 def metric_tile_data_format_events(start, low, medium, high, veryhigh):
@@ -276,64 +284,7 @@ def vuln_table_data(vuln_data):
         },
     }
 
-    # v_list = vuln_list
-    # # for s in range(len(v_list)):
-    # #     pass
-    # #     print(v_list[s])
-    # # print("Total Vuln count above 8.0 rating = ", (len(v_list)))
-    # row_count = len(v_list)
-    # # print(row_count)
-    # return {
-    #     "valid_time": {
-    #         "start_time": "2021-04-28T17:06:26.000Z",
-    #         "end_time": "2021-04-28T18:06:26.000Z",
-    #     },
-    #     "cache_scope": "user",
-    #     "period": "last_hour",
-    #     "observed_time": {
-    #         "start_time": "2021-04-28T17:06:26.000Z",
-    #         "end_time": "2021-04-28T18:06:26.000Z",
-    #     },
-    #     "data": {
-    #         "columns": [
-    #             {"key": "CVSS", "label": "Severity", "content_type": "filter_text"},
-    #             {"key": "date", "label": "Date Discovered", "content_type": "text"},
-    #             {
-    #                 "key": "CVE",
-    #                 "label": "CVE",
-    #                 "content_type": "text",
-    #             },
-    #             {
-    #                 "key": "small_message",
-    #                 "label": "About",
-    #                 "content_type": "text",
-    #             },
-    #             {
-    #                 "key": "dev_impacted",
-    #                 "label": "Devices Impacted",
-    #                 "content_type": "text",
-    #             },
-    #         ],
-    #         "rows": [
-    #             {
-    #                 "CVSS": "8.9",
-    #                 "date": "22-10-22",
-    #                 "CVE": "CVW-2017-0659",
-    #                 "small_message": "Modicon controller bug",
-    #                 "dev_impacted": "2",
-    #             },
-    #             {
-    #                 "CVSS": "10.0",
-    #                 "date": "1234567",
-    #                 "CVE": "CVE-2020-0659",
-    #                 "small_message": "siemens bug",
-    #                 "dev_impacted": "1",
-    #             },
-    #         ],
-    #     },
-    # }
-
-
+# This is the testing tile data.. 
 def TESTING():
     return {
         "valid_time": {

@@ -19,20 +19,16 @@ from flask import (
 )
 from datetime import date, datetime, timedelta
 from schemas import DashboardTileDataSchema, DashboardTileSchema
-from utils import get_json, get_jwt, jsonify_data, extract_CV_payload
 from crayons import red, green, blue, yellow, magenta, cyan
 from tile_data_formats import *
 from tile_formats import *
 from operator import itemgetter
 from requests_toolbelt.utils import dump
+import base64
 
 
 # remove certificate warnings
 urllib3.disable_warnings()
-
-# URL params for calls
-# center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-# center_ip = "172.16.0.236"
 
 center_port = 443
 center_base_urlV3 = "api/3.0"
@@ -57,7 +53,7 @@ query_string2 = {"limit": "2000", "category": "Cisco Cyber Vision Operations"}
 # query_string2 = {'limit':'2000','severity':'veryhigh','category':'Security Events'}
 query_string3 = {"limit": "2000", "start": thirty_days_ago, "end": ""}
 
-#  Main events call for dashboard numbers for previous 30 days
+#  All these functions extract data via the Cyber Vision API for each dashboard
 def get_events(CV_IP, CV_Key):
 
     #  Main events call for dashboard numbers for previous 30 days
@@ -299,18 +295,56 @@ def jsonify_data(data):
 def jsonify_errors(data):
     return jsonify({"errors": [data]})
 
-
+# Parse incoming headers and pull and split the token..
 def pull_token():
     scheme, pull_token = request.headers["Authorization"].split()
     assert scheme.lower() == "bearer"
     return pull_token
+
+# Used to convert the token payload from base64 from pull token
+def extract_CV_payload(token_in):
+
+    full = token_in
+    extract_payload = full.split(".")
+    # Bit of a hack.. the payload needs padding to get valid base64 decode length
+    pad_payload = str(extract_payload[1]) + "=="
+    payload_to_bytes = base64.b64decode(pad_payload)
+    payload_string = payload_to_bytes.decode("ascii")
+    payload_dict = json.loads(payload_string)
+    
+    # These 2 values we need for the call into Cyber Vision.. IP address and API Key
+    CV_values = [payload_dict["CyberVision_IP"], payload_dict["CyberVision_Key"]]
+
+    CV_IP = CV_values[0]
+    CV_Key = CV_values[1]
+    # print(CV_IP, CV_Key)
+    return (CV_IP, CV_Key)
+
+def get_json(schema):
+    """
+    Parse the incoming request's data as JSON.
+    Validate it against the specified schema.
+
+    NOTE. This function is just an example of how one can read and check
+    anything before passing to an API endpoint, and thus it may be modified in
+    any way, replaced by another function, or even removed from the module.
+    """
+    data = request.get_json(force=True, silent=True, cache=False)
+
+    """
+    message = schema.validate(data)
+
+    if message:
+        raise InvalidArgumentError(message)
+    """
+    return data
 
 
 app = Flask(__name__)
 # This forces return of data to secure X in recieved dictionary order.. otherwise its alphabetical in jsonify
 app.config["JSON_SORT_KEYS"] = False
 
-
+#  EDITED OUT ROUTES FROM DEFAULT CONFIG FOR FLASK
 # @app.route("/")
 # def test0():
 #     return "<h1>RELAY MODULE IS UP</h1>"
@@ -321,7 +355,7 @@ app.config["JSON_SORT_KEYS"] = False
 #     truc = 2 + 40
 #     return "<h1>Sounds Good the server is UP " + str(truc) + "</h1>"
 
-
+# No Error templates yet exist for these return values.. 
 @app.errorhandler(404)
 def not_found(error):
     return render_template("error.html"), 404
@@ -345,20 +379,24 @@ def tiles():
 @app.route("/tiles/tile-data", methods=["POST"])
 # extract and insert data into the tile..
 def tile_data():
+    # Print statements used to debug incoming  requests from secureX
     # print(red("INCOMING HEADERS"))
     # print(request.headers)
     # print(request.data)
     # print(request.json)
-    # set a default token to forward..
-    # auth = center_token
-    # use the pulled token from incoming request from secure call and compare with existing
+
+    # This function parses the authorization header to extract the JWT token
     pulled_token = pull_token()
+    
+    # This function is used to extract and decode the embedded JWT payload from the token
+    # and pulls the IP and Key from the JWT it then forwards them to each API call into Cyber Vision
     CVpayload = extract_CV_payload(pulled_token)
     CV_IP = CVpayload[0]
     CV_Key = CVpayload[1]
     # print(green(pulled_token))
-    # if auth == pulled_token:
 
+    # This function is parsing the body of the API request from secureX to confirm the tile-id
+    # it then calls each function type to display the tile contents data which is in tile_data_formats.py
     req = get_json(DashboardTileDataSchema())
     if req["tile_id"] == "event-count":
         start, low, medium, high, veryhigh = get_events(CV_IP, CV_Key)
@@ -401,6 +439,7 @@ def tile_data():
         # print(json.dumps(data_for_table, indent=2))
         return jsonify_data(data_for_table)
 
+# Just an extra test tile to try formatting etc out
     elif req["tile_id"] == "test-markdown":
         return jsonify_data(TESTING())
 
