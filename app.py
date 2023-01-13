@@ -20,7 +20,7 @@ from flask import (
 )
 from datetime import date, datetime, timedelta
 from schemas import DashboardTileDataSchema, DashboardTileSchema
-from utils import get_json, get_jwt, jsonify_data,extract_CV_payload
+from utils import get_json, get_jwt, jsonify_data, extract_CV_payload
 from crayons import red, green, blue, yellow, magenta, cyan
 from tile_data_formats import *
 from tile_formats import *
@@ -59,7 +59,7 @@ query_string2 = {"limit": "2000", "category": "Cisco Cyber Vision Operations"}
 query_string3 = {"limit": "2000", "start": thirty_days_ago, "end": ""}
 
 #  Main events call for dashboard numbers for previous 30 days
-def get_events(CV_IP,CV_Key):
+def get_events(CV_IP, CV_Key):
 
     #  Main events call for dashboard numbers for previous 30 days
     try:
@@ -101,11 +101,11 @@ def get_events(CV_IP,CV_Key):
     return (ev_start, ev_low, ev_medium, ev_high, ev_veryhigh)
 
 
-def get_risk_count():
+def get_risk_count(CV_IP,CV_Key):
     try:
-        headers = {"x-token-id": center_token}
+        headers = {"x-token-id": CV_Key}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",
+            f"https://{CV_IP}:{center_port}/{center_base_urlV3}/{center_api_construct_risk}",
             headers=headers,
             verify=False,
             timeout=6,
@@ -138,12 +138,12 @@ def get_risk_count():
         return (high, medium, low)
 
 
-def get_top_ten_events():
+def get_top_ten_events(CV_IP, CV_Key):
     #  Main events call for dashboard numbers for previous 30 days
     try:
-        headers = {"x-token-id": center_token}
+        headers = {"x-token-id": CV_Key}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events&category=Cisco%20Cyber%20Vision%20Operations&category=Cisco%20Cyber%20Vision%20Administration",
+            f"https://{CV_IP}:{center_port}/{center_base_urlV1}/{center_api_construct_event}?category=Security%20Events&category=Cisco%20Cyber%20Vision%20Operations&category=Cisco%20Cyber%20Vision%20Administration",
             params=query_string1,
             headers=headers,
             verify=False,
@@ -204,12 +204,12 @@ def get_top_ten_events():
                 return nl
 
 
-def get_vln_device_counts():
+def get_vln_device_counts(CV_IP,CV_Key):
     #  Main events call for dashboard numbers for previous 30 days
     try:
-        headers = {"x-token-id": center_token}
+        headers = {"x-token-id": CV_Key}
         r_get = requests.get(
-            f"https://{center_ip}:{center_port}/{center_base_urlV3}/{center_api_construct_events_counts}",
+            f"https://{CV_IP}:{center_port}/{center_base_urlV3}/{center_api_construct_events_counts}",
             headers=headers,
             verify=False,
             timeout=6,
@@ -242,10 +242,10 @@ def get_vln_device_counts():
                 return (vhigh, vmedium, vlow, vcritical, vtotal)
 
 
-def get_vuln_counts(CV_IP,CV_Key):
+def get_vuln_counts(CV_IP, CV_Key):
     # First we have to find the preset value for ALL data...
     try:
-        headers = {"x-token-id":CV_Key}
+        headers = {"x-token-id": CV_Key}
         r_get = requests.get(
             f"https://{CV_IP}:{center_port}/{center_base_urlV3}/{center_api_construct_presets}",
             headers=headers,
@@ -355,57 +355,57 @@ def tile_data():
     # use the pulled token from incoming request from secure call and compare with existing
     pulled_token = pull_token()
     CVpayload = extract_CV_payload(pulled_token)
-    CV_IP =(CVpayload[0])
-    CV_Key =(CVpayload[1])
+    CV_IP = CVpayload[0]
+    CV_Key = CVpayload[1]
     # print(green(pulled_token))
     # if auth == pulled_token:
 
     req = get_json(DashboardTileDataSchema())
-        # removed the validation part - here just hard code the tile to push data to based on tile data
-        # data = {'tile_id':'event-count'}
+    # removed the validation part - here just hard code the tile to push data to based on tile data
+    # data = {'tile_id':'event-count'}
     if req["tile_id"] == "event-count":
-            start, low, medium, high, veryhigh = get_events(CV_IP,CV_Key)
-            # # send  data to be formatted for the tile..
-            return jsonify_data(
-                metric_tile_data_format_events(start, low, medium, high, veryhigh)
-            )
+        start, low, medium, high, veryhigh = get_events(CV_IP, CV_Key)
+        # # send  data to be formatted for the tile..
+        return jsonify_data(
+            metric_tile_data_format_events(start, low, medium, high, veryhigh)
+        )
 
     elif req["tile_id"] == "risk-count":
-            high, medium, low = get_risk_count()
-            if high == 0 & medium == 0 & low == 0:
-                high = 0
-                medium = 0
-                low = 0
-            total = high + medium + low
-            return jsonify_data(
-                vert_bar_chart_tile_data_format_risk(high, medium, low, total)
-            )
+        high, medium, low = get_risk_count(CV_IP,CV_Key)
+        if high == 0 & medium == 0 & low == 0:
+            high = 0
+            medium = 0
+            low = 0
+        total = high + medium + low
+        return jsonify_data(
+            vert_bar_chart_tile_data_format_risk(high, medium, low, total)
+        )
 
     elif req["tile_id"] == "top-ten-event":
-            full_list = []
-            top10 = []
-            full_list = get_top_ten_events()
-            # print(red(len(full_list)))
-            # for g in range(len(full_list)):
-            for g in range(21):
-                top10.append(full_list[g])
-            # print(f"this is top 10 in calling app", top10)
-            return jsonify_data(data_table_format_events(top10))
+        full_list = []
+        top10 = []
+        full_list = get_top_ten_events(CV_IP, CV_Key)
+        # print(red(len(full_list)))
+        # for g in range(len(full_list)):
+        for g in range(21):
+            top10.append(full_list[g])
+        # print(f"this is top 10 in calling app", top10)
+        return jsonify_data(data_table_format_events(top10))
 
     elif req["tile_id"] == "vln-device-count":
-            vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts()
-            return jsonify_data(
-                donut_data_vln_device_count(vhigh, vmedium, vlow, vcritical, vtotal)
-            )
+        vhigh, vmedium, vlow, vcritical, vtotal = get_vln_device_counts(CV_IP,CV_Key)
+        return jsonify_data(
+            donut_data_vln_device_count(vhigh, vmedium, vlow, vcritical, vtotal)
+        )
 
     elif req["tile_id"] == "top-vulnerable":
-            vuln_list = get_vuln_counts(CV_IP,CV_Key)
-            data_for_table = vuln_table_data(vuln_list)
-            # print(json.dumps(data_for_table, indent=2))
-            return jsonify_data(data_for_table)
+        vuln_list = get_vuln_counts(CV_IP, CV_Key)
+        data_for_table = vuln_table_data(vuln_list)
+        # print(json.dumps(data_for_table, indent=2))
+        return jsonify_data(data_for_table)
 
     elif req["tile_id"] == "test-markdown":
-            return jsonify_data(TESTING())
+        return jsonify_data(TESTING())
 
     # else:
     #     print ('ITS NOT')
