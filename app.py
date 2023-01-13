@@ -32,8 +32,8 @@ from requests_toolbelt.utils import dump
 urllib3.disable_warnings()
 
 # URL params for calls
-center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
-center_ip = "172.16.0.236"
+# center_token = "ics-65024d2f766a314620a7fcdeb7d95f44bb2f5ec8-aea0f5dcd40b79790dd187d38e8805d042d83392"
+# center_ip = "172.16.0.236"
 
 center_port = 443
 center_base_urlV3 = "api/3.0"
@@ -312,15 +312,15 @@ app = Flask(__name__)
 app.config["JSON_SORT_KEYS"] = False
 
 
-@app.route("/")
-def test0():
-    return "<h1>RELAY MODULE IS UP</h1>"
+# @app.route("/")
+# def test0():
+#     return "<h1>RELAY MODULE IS UP</h1>"
 
 
-@app.route("/test")
-def test():
-    truc = 2 + 40
-    return "<h1>Sounds Good the server is UP " + str(truc) + "</h1>"
+# @app.route("/test")
+# def test():
+#     truc = 2 + 40
+#     return "<h1>Sounds Good the server is UP " + str(truc) + "</h1>"
 
 
 @app.errorhandler(404)
@@ -374,7 +374,6 @@ def tile_data():
         #     high = 0
         #     medium = 0
         #     low = 0
-        print (red(high , medium , low))
         total = high + medium + low
         return jsonify_data(
             vert_bar_chart_tile_data_format_risk(high, medium, low, total)
