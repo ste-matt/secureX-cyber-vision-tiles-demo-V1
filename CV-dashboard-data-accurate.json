@@ -1,0 +1,1023 @@
+{
+  "activity": {
+    "total": 285,
+    "active": 285,
+    "created": 285
+  },
+  "orphanComponent": {
+    "total": 55,
+    "active": 55,
+    "created": 55
+  },
+  "event": {
+    "created": {
+      "total": 496,
+      "low": 227,
+      "medium": 2,
+      "high": 254,
+      "critical": 13
+    },
+    "total": {
+      "total": 496,
+      "low": 227,
+      "medium": 2,
+      "high": 254,
+      "critical": 13
+    }
+  },
+  "group": {
+    "total": 2,
+    "active": 2,
+    "created": 2
+  },
+  "variable": {
+    "total": 6,
+    "active": 6,
+    "created": 6
+  },
+  "vulnerability": {
+    "total": 334,
+    "active": 334,
+    "created": 334,
+    "deviceCount": 5
+  },
+  "plc": {
+    "total": 0,
+    "created": 0
+  },
+  "credential": {
+    "total": 3,
+    "active": 3,
+    "created": 3
+  },
+  "tag": [
+    {
+      "id": "CISCO",
+      "label": "Cisco",
+      "description": "Cisco Vendor",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "feebd529-0323-5eee-a3b3-aa8b471a293b",
+        "label": "System"
+      },
+      "nbOccurences": 3
+    },
+    {
+      "id": "DNS_SERVER",
+      "label": "DNS Server",
+      "description": "A DNS Server is used to convert human readable name into technical IP addresses. \nSee: https://en.wikipedia.org/wiki/Domain_Name_System",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "DNS Server are material for the integrity of the control systems network. If someone can hijack DNS service, it can redirect some network request to its own controlled server, leading to data leakage or production loss."
+    },
+    {
+      "id": "ENGINEERING",
+      "label": "Engineering Station",
+      "description": "An Engineering Station is a workstation in which Engineering softwares are installed and used to configure, program, start or stop PLC, DCS or Safety controllers.",
+      "type": "component",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "43d1102e-037b-512d-8404-f26021ca6274",
+        "label": "Device - Level 2"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Engineering workstation. Contains all the necessary data and tools to compromise large parts of the system. See https://collaborate.mitre.org/attackics/index.php/Engineering_Workstation"
+    },
+    {
+      "id": "HOST_CONFIG_CLIENT",
+      "label": "Host Config Client",
+      "description": "A Host Config Client is a client that requests a network configuration. In normal operating conditions a component tagged as Host Config Client must send requests using protocols such as DHCP.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 3
+    },
+    {
+      "id": "HOST_CONFIG_SERVER",
+      "label": "Host Config Server",
+      "description": "A Host Config Server is a server that provides configuration to other networked host. In normal operating conditions a component tagged as Host Config Server must send commands using protocols such as DHCP.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "The Host Config Server, such as DHCP server or Active Directory, is associating IP addresses to the different devices. If compromised, an attacker can assign totally new IP addresses to a large pool of devices, causing a large impact on control system availability."
+    },
+    {
+      "id": "HTTP Client",
+      "label": "HTTP Client",
+      "description": "An HTTP Client is a computer or a program that uses HTTP to connect to a web server over the Internet to transfer documents or other data.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Device accessing a server (through Web browser or other software) via unsecured HTTP protocol. See https://attack.mitre.org/techniques/T1071/001/. Impact depends on the information stored on the client and the server"
+    },
+    {
+      "id": "HTTPS_CLIENT",
+      "label": "HTTPS Client",
+      "description": "An HTTPS Client is a computer or a program that uses HTTP over TLS to connect securely to a web server over the Internet to transfer documents or other data.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Device accessing a server (through Web browser or other software) via secured HTTPS protocol. See https://attack.mitre.org/techniques/T1071/001/.  Impact depends on the information stored on the client and the server"
+    },
+    {
+      "id": "IO",
+      "label": "IO Module",
+      "description": "An IO component is an Input or Output module connected to its PLC. It is used to gather data from sensors and to send command to actuators.",
+      "type": "component",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "514c15ba-07fe-58a6-ae89-21a72e25177b",
+        "label": "Device - Level 0-1"
+      },
+      "nbOccurences": 4,
+      "riskScoreDescription": "Input/Output device. See https://collaborate.mitre.org/attackics/index.php/Input/Output_Server"
+    },
+    {
+      "id": "LINKLOCAL_IPV4",
+      "label": "IPv4 Link Local",
+      "description": "A link-local address is a network address that is valid only for communications within the network segment or the broadcast domain that the host is connected to.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Normal local network traffic"
+    },
+    {
+      "id": "LINKLOCAL_IPV6",
+      "label": "IPv6 Link Local",
+      "description": "A link-local address is a network address that is valid only for communications within the network segment or the broadcast domain that the host is connected to.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Normal local network traffic"
+    },
+    {
+      "id": "LOCAL_MAC",
+      "label": "Locally Administered MAC",
+      "description": "Locally administered address is assigned to a device by software or a network administrator, overriding the burned-in address for physical devices. Source: https://en.wikipedia.org/wiki/MAC_address#Universal_vs._local",
+      "type": "component",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 2
+    },
+    {
+      "id": "NET_MANAGEMENT_SERVER",
+      "label": "Net Management Server",
+      "description": "A Net Management server is a server that requests the status of all the devices running on the network and provides an \"health\" monitoring of system variables (CPU Load, Disk load, etc.). In normal operating conditions a component tagged as Net Management uses protocols such as SNMP.",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "SNMP client device, usually network management software. Only the Version 3 of SNMP is properly secured. See https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol"
+    },
+    {
+      "id": "NET_ROUTER",
+      "label": "Routing Capability",
+      "description": "A router is a networking device that forwards data packets between computer networks. Source: https://en.wikipedia.org/wiki/Router_(computing).",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Network routing device. See https://en.wikipedia.org/wiki/Router_(computing)"
+    },
+    {
+      "id": "PLC",
+      "label": "Controller",
+      "description": "A controller is an industrial digital computer which has been ruggedized and adapted for the control of industrial processes. Controller is a generic term to encompass several terms related to specific vertical applications. It could be a programmable controller (PLC) in manufacturing such as assembly lines, robotic devices, or any activity that requires high reliability control and ease of programming and process fault diagnosis. It could also be a Distributed Control System Controller (DCS Controller) in oil&gas or power generation. Lastly, this term could also be used for Intelligent Electronic Device (IED) in power grids.",
+      "type": "component",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "43d1102e-037b-512d-8404-f26021ca6274",
+        "label": "Device - Level 2"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Programmable Logic Controller. See https://collaborate.mitre.org/attackics/index.php/Field_Controller/RTU/PLC/IED"
+    },
+    {
+      "id": "Public IP",
+      "label": "Public IP",
+      "description": "Public IP refers to an IP address which is designed to be public.\nSee: https://en.wikipedia.org/wiki/IP_address",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 191,
+      "riskScoreDescription": "Public IP as per RFC 1918. It doesn't mean automaticaly that the device addressed is outside the Electronic Security Perimeter of the system."
+    },
+    {
+      "id": "REMOTE_ADMIN_SERVER",
+      "label": "Remote Admin Server",
+      "description": "A Remote Admin Server is a server enabling Remote Administration. Remote administration refers to any method of controlling a computer from a remote location. Software that allows remote administration is becoming increasingly common and is often used when it is difficult or impractical to be physically near a system in order to use it. A remote location may refer to a computer in the next room or one on the other side of the world. It may also refer to both legal and illegal (i.e. hacking) remote administration (see Owned and Trojan). Source: https://en.wikipedia.org/wiki/Remote_administration",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Remote Administration Server. Potential huge impact if compromised.  Depending on the protcols used (from Telnet to SSH and Microsoft secured remote administration), they could be more or less secured. Check the communicatioon protocols and this machine."
+    },
+    {
+      "id": "SNMP_AGENT",
+      "label": "SNMP Agent",
+      "description": "Each SNMP-managed device executes a software component called an agent which reports information via SNMP to the manager. A managed device is a network node that implements an SNMP interface that allows unidirectional (read-only) or bidirectional (read and write) access to node-specific information. Source: https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "456db696-4bdf-581f-923a-42419596ee47",
+        "label": "Software"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "SNMP agent device, usually network devices, but can also be industrial devices. Only the Version 3 of SNMP is properly secured. See https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol"
+    },
+    {
+      "id": "WEB_SERVER",
+      "label": "Web Server",
+      "description": "Web server refers to server software, or hardware dedicated to running said software, that can serve contents to the World Wide Web. A web server processes incoming network requests over the HTTP protocol (and several other related protocols).",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "92869ccb-faff-5654-8a3c-f1648152f8d0",
+        "label": "Device - Level 3-4"
+      },
+      "nbOccurences": 185,
+      "riskScoreDescription": "By definition a web server is not adding a risk on the network. Still it could be a distribution point of various exploit via webpages. It can be part also of a Supply Chain attacks. See https://collaborate.mitre.org/attackics/index.php/Technique/T0862"
+    },
+    {
+      "id": "WINDOWS",
+      "label": "Windows",
+      "description": "Windows is a personal computer operating system developed by Microsoft. See: https://en.wikipedia.org/wiki/Microsoft_Windows",
+      "type": "component",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "456db696-4bdf-581f-923a-42419596ee47",
+        "label": "Software"
+      },
+      "nbOccurences": 10,
+      "riskScoreDescription": "Microsoft Windows based operating system. In order to be secured, these operating systems should be properly patched and hardened. See https://www.microsoft.com/"
+    },
+    {
+      "id": "ADMIN",
+      "label": "Admin",
+      "description": "Admin refers to a communication between two network components using a protocol dedicated to remote administration, such as SSH or Remote Desktop.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Admin activities are related to administrative access to a device. These admin capable communication can lead to device integrity changes or have an impact on the availability of the device. "
+    },
+    {
+      "id": "ARP",
+      "label": "ARP",
+      "description": "The Address Resolution Protocol (ARP) is a communication protocol used for discovering the link layer address, such as a MAC address, associated with a given network layer address, typically an IPv4 address. Source: https://en.wikipedia.org/wiki/Address_Resolution_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 51,
+      "riskScoreDescription": "The Address Resolution Protocol is used to establish a correspondance between link layer address and IP address. See https://en.wikipedia.org/wiki/Address_Resolution_Protocol.  The most common attack through this protocol is the Man in the Middlle thgouh ARP poisonning / ARP spoofing. See https://collaborate.mitre.org/attackics/index.php/Technique/T0830#scite-acb302cefbae1dbf818e557c6605678"
+    },
+    {
+      "id": "AUTH",
+      "label": "Authentication",
+      "description": "Authentication refers to a communication which is dedicated to authenticate a machine to another machine.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 4,
+      "riskScoreDescription": "Authentication activities are related to user logons and access priviledge. "
+    },
+    {
+      "id": "AUTH_ERR",
+      "label": "Authentication Error",
+      "description": "Authentication Error refers to a flow behavior where the protocol inspection has detected some Authentication errors.",
+      "type": "flow",
+      "domain": "ot",
+      "important": true,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Authentication error reported on a protocl enabling some security. A few errors are errors. A conitnuous flow of error is a brute fore attack."
+    },
+    {
+      "id": "BROADCAST",
+      "label": "Broadcast",
+      "description": "Broadcast refers to a broadcast communication.\nSee: https://en.wikipedia.org/wiki/Broadcasting_(networking)",
+      "type": "flow",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 28,
+      "riskScoreDescription": "Broadcast address"
+    },
+    {
+      "id": "CDP",
+      "label": "CDP",
+      "description": "Cisco Discovery Protocol (CDP) is a proprietary Data Link Layer protocol developed by Cisco Systems in 1994 by Keith McCloghrie and Dino Farinacci. It is used to share information about other directly connected Cisco equipment, such as the operating system version and IP address.\nSource: https://en.wikipedia.org/wiki/Cisco_Discovery_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "The Cisco Discovery Protocol does not possess inherent security mechanisms and is vulnerable to attacks. Use the Secure Cisco Discovery Protocol. See https://www.cisco.com/c/en/us/td/docs/ios-xml/ios/cdp/configuration/15-sy/cdp-15-sy-book.html"
+    },
+    {
+      "id": "CLOCK",
+      "label": "Time Management",
+      "description": "Time Management refers to a communication where a machine will sync its time with an authorized Time Server.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Clock protocols are material to synchronise the time accross OT device. Several safety and security mechanism relies on the integrity of the time service accross the network."
+    },
+    {
+      "id": "DCERPC",
+      "label": "DCE-RPC",
+      "description": "DCE/RPC, short for \"Distributed Computing Environment / Remote Procedure Calls\", is the remote procedure call system developed for the Distributed Computing Environment (DCE). Source: https://en.wikipedia.org/wiki/DCE/RPC",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "DCE RPC is a remote procedure call protocol that should be properly secured and patched. See https://pubs.opengroup.org/onlinepubs/9629399/chap13.htmhttps://pubs.opengroup.org/onlinepubs/9629399/chap13.htm"
+    },
+    {
+      "id": "DIAGNOSTICS",
+      "label": "Diagnostics",
+      "description": "Diagnostics is a control systems command to ask a controller for diagnostics data. In some cases, setting the controller to a debug mode that can harm the production is required. In normal operating conditions flows tagged as Diagnostics must originate from an Engineering Station and destinate to a PLC, DCS or Safety controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Retrieve various diagnosys data from a PLC, IED, or I/O device. Usually sent from an engineering station for maintenance or test operations. Since it relies on unsecured OT protocols, this operation should be programmed and traced in order to make the difference between a legitimate maintenance operation and a rogue software operation.  Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0888"
+    },
+    {
+      "id": "DNS",
+      "label": "DNS",
+      "description": "The Domain Name System (DNS) is a hierarchical decentralized naming system for computers, services, or other resources connected to the Internet or a private network. Source: https://en.wikipedia.org/wiki/Domain_Name_System",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 7,
+      "riskScoreDescription": "Although less used in classical Industrial networks, DNS is prone to attacks. See https://umbrella.cisco.com/products/dns-layer-network-security"
+    },
+    {
+      "id": "ENCRYPTED",
+      "label": "Encrypted",
+      "description": "This is a tag for encrypted traffic. \nSee https://en.wikipedia.org/wiki/Encryption and https://fr.wikipedia.org/wiki/Transport_Layer_Security",
+      "type": "flow",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 139,
+      "riskScoreDescription": "Encrypted communication"
+    },
+    {
+      "id": "EXCEPTION",
+      "label": "Exception",
+      "description": "Exception refers to a flow behavior where the protocol inspection has detected some Exception.",
+      "type": "flow",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 4,
+      "riskScoreDescription": "Exception (error) reported on an IT or OT protocol. Errors can either be applicative (protocol implementation of application error), or the sign of a malformed packets attacks. To be analyzed."
+    },
+    {
+      "id": "HOST_CONFIG",
+      "label": "Host Config",
+      "description": "Host config refers to a communication between an unconfigured station and an autoritative Host Config Server to be provisionned with a new IP address or DNS Server.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 5,
+      "riskScoreDescription": "IP address assignation used at boot time"
+    },
+    {
+      "id": "HTTP",
+      "label": "HTTP",
+      "description": "The Hypertext Transfer Protocol (HTTP) is an application protocol for distributed, collaborative, hypermedia information systems. Source: https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 49,
+      "riskScoreDescription": "Unsecured Web protocol. Should be replaced by HTTPS. See https://en.wikipedia.org/wiki/HTTPS"
+    },
+    {
+      "id": "HTTPS",
+      "label": "HTTPS",
+      "description": "Hypertext Transfer Protocol Secure (HTTPS) is an extension of the Hypertext Transfer Protocol (HTTP). It is used for secure communication over a computer network, and is widely used on the Internet. Source: https://en.wikipedia.org/wiki/HTTPS",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 139,
+      "riskScoreDescription": "Secured Web protocol"
+    },
+    {
+      "id": "ICMP",
+      "label": "ICMP",
+      "description": "The Internet Control Message Protocol (ICMP) is a supporting protocol in the Internet protocol suite. It is used by network devices, including routers, to send error messages and operational information indicating, for example, that a requested service is not available or that a host or router could not be reached. Source: https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 11,
+      "riskScoreDescription": "Internet Control Message Protocol. Although it can be used by attackers for reconnaissance and DoS, the protocl itself does not represent a significant threat."
+    },
+    {
+      "id": "INSECURE",
+      "label": "Insecure",
+      "description": "This is a tag for connections using a plain-text protocol for data exchange. Such protocols do not encrypt any data (configuration, credentials, process values) sent over the network, making it vulnerable to eavesdrop. Password may or may not be configured, while this doesn't secure the data itself in any way.\nNotable examples are HTTP, Telnet or TFTP, among many others.",
+      "type": "flow",
+      "domain": "both",
+      "important": true,
+      "category": {
+        "id": "3ea65ee9-3905-5913-ac7b-775d5d03c0c6",
+        "label": "Security analysis"
+      },
+      "nbOccurences": 54,
+      "riskScoreDescription": "Insecured protocol traffic (Telnet, FTP, etc…). Analyse the protocols and replace them by their secure version"
+    },
+    {
+      "id": "IPV6",
+      "label": "IPv6",
+      "description": "Internet Protocol version 6 (IPv6) is the most recent version of the Internet Protocol (IP). It is a communication protocol that provides an identification and location system for computers on networks and routes traffic across the Internet. Source: https://en.wikipedia.org/wiki/IPv6",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "IPv6 protocol"
+    },
+    {
+      "id": "ISL",
+      "label": "ISL",
+      "description": "Cisco Inter-Switch Link (ISL) is a Cisco Systems proprietary protocol that maintains VLAN information in Ethernet frames as traffic flows between switches and routers, or switches and switches. Source: https://en.wikipedia.org/wiki/Cisco_Inter-Switch_Link",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 3
+    },
+    {
+      "id": "LOW_VOLUME",
+      "label": "Low Volume",
+      "description": "Low Volume refers to an analysis done by Cyber Vision to detect flows which are sending few data (less than 10 packets).",
+      "type": "flow",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 19
+    },
+    {
+      "id": "MDNS",
+      "label": "Multicast DNS",
+      "description": "The multicast DNS (mDNS) protocol resolves hostnames to IP addresses within small networks that do not include a local name server.  source: https://en.wikipedia.org/wiki/Multicast_DNS",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 2
+    },
+    {
+      "id": "MODBUS",
+      "label": "Modbus",
+      "description": "Modbus is a serial communications protocol originally published by Modicon (now Schneider Electric) in 1979 for use with its programmable logic controllers (PLCs).It is now used over TCP/IP networks on port 502. Source: https://en.wikipedia.org/wiki/Modbus",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Modbus is a Control Command protocol created by Modicon in 1979. Modbus TCP has no builtin security. It should be replaced by Secured modbus. See https://modbus.org/docs/MB-TCP-Security-v21_2018-07-24.pdf"
+    },
+    {
+      "id": "MULTICAST",
+      "label": "Multicast",
+      "description": "Multicast refers to a multicast communication.\nSee: https://en.wikipedia.org/wiki/Multicast",
+      "type": "flow",
+      "domain": "both",
+      "important": false,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 14,
+      "riskScoreDescription": "Multicast address"
+    },
+    {
+      "id": "NETBIOS",
+      "label": "Netbios",
+      "description": "NetBIOS is an acronym for Network Basic Input/Output System. It provides services related to the session layer of the OSI model allowing applications on separate computers to communicate over a local area network. Source: https://en.wikipedia.org/wiki/NetBIOS",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 8,
+      "riskScoreDescription": "LLMNR or legacy Netbios traffic. Considered as unsecured"
+    },
+    {
+      "id": "NETBIOS_NS",
+      "label": "Netbios Name Service",
+      "description": "Netbios Name Service is one of the Netbios services used for name registration and address resolution.\nhttps://en.wikipedia.org/wiki/NetBIOS#Name_service",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 5,
+      "riskScoreDescription": "Netbios Name service on TCP. Considered as unsecured"
+    },
+    {
+      "id": "NET_MANAGEMENT",
+      "label": "Net Management",
+      "description": "Net Management refers to a communication between an authorized Net Management Server and a station or a machine.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Comunication between a Network management server and a amchine. Risk d"
+    },
+    {
+      "id": "NTP",
+      "label": "NTP",
+      "description": "Network Time Protocol (NTP) is a networking protocol for clock synchronization between computer systems over packet-switched, variable-latency data networks. Source: https://en.wikipedia.org/wiki/Network_Time_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "NTP (Network Time Protocol) is an unsecured protocol to synchronize time in a system. Only NTS (Network Time Security) provide security mechanisms. See https://datatracker.ietf.org/doc/html/rfc8915"
+    },
+    {
+      "id": "PING",
+      "label": "Ping",
+      "description": "Ping refers to a communication between any station which are probing if another station is up and running. The receiving station would answer \"pong\".",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 11,
+      "riskScoreDescription": "ICMP command sent by the \"ping\" utility. Normal for network management at low level, can be used for DoS attack."
+    },
+    {
+      "id": "PLC_RESERVATION",
+      "label": "PLC Reservation",
+      "description": "A PLC Reservation order takes an exclusive lock on a given PLC for a specific period of time, preventing other engineering stations from connecting to the PLC.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Change the operating mode of a PLC or I/O device. Usually sent from an engineering station for maintenance or test operations. Since it relies on unsecured OT protocols, this operation should be programmed and traced in order to make the difference between a legitimate maintenance operation and a rogue software operation.  Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0858"
+    },
+    {
+      "id": "PNIO_CM",
+      "label": "Profinet-IO CM",
+      "description": "PROFINET IO Configuration Management is a subset of the PROFINET protocol familly.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Profinet IO management protocol. Secured version of Profinet protocols (and devices) should be used. See https://www.profibus.com/technology/industrie-40/profinet-security#tab1-222211"
+    },
+    {
+      "id": "PROFINET",
+      "label": "Profinet",
+      "description": "PROFINET (profinet acronym for Process Field Net) is an industry technical standard for data communication over Industrial Ethernet, designed for collecting data from, and controlling, equipment in industrial systems, with a particular strength in delivering data under tight time constraints (on the order of 1ms or less). Source: https://en.wikipedia.org/wiki/PROFINET",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 7,
+      "riskScoreDescription": "Profinet protocol. Secured version of Profinet protocols (and devices) should be used. See https://www.profibus.com/technology/industrie-40/profinet-security#tab1-222211"
+    },
+    {
+      "id": "PROFINET_DCP",
+      "label": "Profinet DCP",
+      "description": "DCP is part of the PROFINET protocol suite and stands for “Discovery and Configuration Protocol”",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Profinet Discovery protocol. Secured version of Profinet protocols (and devices) should be used. See https://www.profibus.com/technology/industrie-40/profinet-security#tab1-222211"
+    },
+    {
+      "id": "PROFINET_IO",
+      "label": "PROFINET/IO (PN-IO)",
+      "description": "PROFINET/IO (PN-IO)  is part of the PROFINET protocol suite",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 2
+    },
+    {
+      "id": "PROGRAM_UPLOAD",
+      "label": "Program Upload",
+      "description": "Program Upload is a control systems command to upload the current PLC, DCS or Safety controller program to the requesting component. As a consequence, the requesting component will get a full copy of the control logic. In normal operating conditions flows tagged as Program Upload must originate from an Engineering Station and destinate to PLC, DCS or Safety Controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": true,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Retrieve the program run by a PLC. Usually sent from an engineering station for maintenance . Since it relies on unsecured OT protocols, this operation should be programmed and traced in order to make the difference between a legitimate maintenance operation and a rogue software operation. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0845"
+    },
+    {
+      "id": "RARP",
+      "label": "RARP",
+      "description": "The Reverse Address Resolution Protocol (RARP) is an obsolete computer networking protocol used by a client computer to request its Internet Protocol (IPv4) address from a computer network, when all it has available is its link layer or hardware address, such as a MAC address. The client broadcasts the request and does not need prior knowledge of the network topology or the identities of servers capable of fulfilling its request.   Source: https://en.wikipedia.org/wiki/Reverse_Address_Resolution_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Reverse Address Resolution Protocol. See https://datatracker.ietf.org/doc/html/rfc903"
+    },
+    {
+      "id": "READ_MEMORY",
+      "label": "Read Memory",
+      "description": "Read Memory is a control systems command to read memory from the PLC, DCS or Safety controller memory. It enables the reading component to acquire data. In normal operating conditions flows tagged as Read Memory must originate from an Engineering Station",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 2,
+      "riskScoreDescription": "Read a memory from a I/O device or a PLC. Since it relies on unsecured OT protocol, the result of this operation can easily be counterfeit. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0830"
+    },
+    {
+      "id": "READ_VAR",
+      "label": "Read Var",
+      "description": "Read Var is a control systems command to read process variables from the PLC, DCS or Safety controller memory. It enables the reading component to acquire data. In normal operating conditions flows tagged as Read Var must originate from a SCADA Station, HMI, OPC Server or Historian and destinate to PLC, DCS or Safety controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Read a variable from a I/O device or a PLC. Since it relies on unsecured OT protocol, the result of this operation can easily be counterfeit. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0830"
+    },
+    {
+      "id": "RPC",
+      "label": "Procedure Call",
+      "description": "A Procedure Call refers to a communication between two stations which distribute computing accross the network. It was massively used by vendors such as Microsoft (DCE-RPC, DCOM) or Sun Microsystems (ON-RPC)",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 5
+    },
+    {
+      "id": "S7PLUS",
+      "label": "S7Plus",
+      "description": "Siemens S7 Plus is a protocol dedicated to the management and supervision of Siemens SIMATIC S7 PLCs, IO Modules, Drives, etc.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Siemens S7 management protocol with some anti replay and security mechanisms"
+    },
+    {
+      "id": "SMB",
+      "label": "SMB",
+      "description": "In computer networking, Server Message Block (SMB), one version of which was also known as Common Internet File System (CIFS, ), operates as an application-layer network protocol mainly used for providing shared access to files, printers, and serial ports and miscellaneous communications between nodes on a network. Source: https://en.wikipedia.org/wiki/Server_Message_Block",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 12,
+      "riskScoreDescription": "Microsoft Server Message Block Protocol. Created in 1983, several versions exist from the secured one to the most unsecured"
+    },
+    {
+      "id": "SNMP",
+      "label": "SNMP",
+      "description": "Simple Network Management Protocol (SNMP) is an Internet Standard protocol for collecting and organizing information about managed devices on IP networks and for modifying that information to change device behavior. Source: https://en.wikipedia.org/wiki/Simple_Network_Management_Protocol",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Simple Network Management Protocol. Only the Version 3 of SNMP is properly secured. See https://datatracker.ietf.org/doc/html/rfc6353, https://datatracker.ietf.org/doc/html/rfc7630"
+    },
+    {
+      "id": "SSDP",
+      "label": "Simple Service Discovery Protocol",
+      "description": "SSDP (Simple Service Discovery Protocol)",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 1
+    },
+    {
+      "id": "START_CPU",
+      "label": "Start CPU",
+      "description": "Start CPU is a control systems command to start a CPU. As a consequence, the industrial process run by the PLC, DCS or Safety controller will be started when previously stopped. In normal operating conditions flows tagged as Start CPU must originate from an Engineering Station and destinate to PLC, DCS or Safety controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": true,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Start the execution of a progam on a PLC, usually sent from an engineering station for maintenance purpose. Since it relies on unsecured OT protocols, this operation should be programmed and traced in order to make the difference between a legitimate maintenance operation and a rogue software operation. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0816"
+    },
+    {
+      "id": "STOP_CPU",
+      "label": "Stop CPU",
+      "description": "Stop CPU is a control systems command to stop a CPU. As a consequence, the industrial process run by the PLC, DCS or Safety controller will be interrupted until a Start CPU command is sent. In normal operating conditions flows tagged as Stop CPU must originate from an Engineering Station and destinate to PLC, DCS or Safety controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": true,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Stop the execution of a progam on a PLC, usually sent from an engineering station for maintenance purpose. Since it relies on unsecured OT protocols, this operation should be programmed and traced in order to make the difference between a legitimate maintenance operation and a rogue software operation. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0816"
+    },
+    {
+      "id": "TLS",
+      "label": "SSL/TLS",
+      "description": "Transport Layer Security (TLS), and its now-deprecated predecessor, Secure Sockets Layer (SSL) are cryptographic protocols designed to provide communications security over a computer network",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 137,
+      "riskScoreDescription": "Secured point to point protocol. Some versions and/or configurations of TLS are considered as unsecured and deprecated."
+    },
+    {
+      "id": "UMAS",
+      "label": "Umas",
+      "description": "Schneider Electric UMAS is a protocol dedicated to the management and supervision of Schneider Eletric PLCs, IO Modules, Drives, etc.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "b6d3d12d-9e34-5afc-89e2-3fc32fdaf1a2",
+        "label": "Protocol"
+      },
+      "nbOccurences": 3,
+      "riskScoreDescription": "Schneider Electric proprietary CC protocol based on modbus, without built in security"
+    },
+    {
+      "id": "UNESTABLISHED",
+      "label": "Unestablished",
+      "description": "Unestablished refers to an analysis done by Cyber Vision to detect flows which are not been correctly established. It could reveal misconfigurations or malicious actors trying to scan the network.",
+      "type": "flow",
+      "domain": "both",
+      "important": true,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 4,
+      "riskScoreDescription": "Unestablished refers to an analysis done by Cyber Vision to detect flows which are not been correctly established. It could reveal misconfigurations or malicious actors trying to scan the network."
+    },
+    {
+      "id": "WEAK_ENCRYPTION",
+      "label": "Weak encryption",
+      "description": "This is a tag for connections using an outdated and unsecure security protocol (relatively to its hash algorithm, cipher or encryption scheme). It may expose data (configuration, credentials, process values) sent through this connection.",
+      "type": "flow",
+      "domain": "both",
+      "important": true,
+      "category": {
+        "id": "5cb3eeb7-b0eb-5553-8575-8f11d25de770",
+        "label": "Network analysis"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Weak encryption detected: Either the encription is base on an obsolete TLS version, or the ciphers used have been deprecated. "
+    },
+    {
+      "id": "WEB",
+      "label": "Web",
+      "description": "The World Wide Web (abbreviated the Web) is an information space where documents and other web resources are identified by Uniform Resource Locators (URLs), interlinked by hypertext links, and accessible via the Internet.",
+      "type": "flow",
+      "domain": "it",
+      "important": false,
+      "category": {
+        "id": "234be9bd-28d8-5931-a787-5685d9616550",
+        "label": "IT behavior"
+      },
+      "nbOccurences": 187,
+      "riskScoreDescription": "Secure or unsecured WEB protocol. Consider using HTTPS with proper ciphers only"
+    },
+    {
+      "id": "WRITE_VAR",
+      "label": "Write Var",
+      "description": "Write Var is a control systems command to write process variables to the PLC, DCS or Safety controller memory. The writing component set new data such as setpoints or orders. In normal operating conditions flows tagged as Write Var must originate from a SCADA Station, HMI, OPC Server and destinate to PLC, DCS or Safety controller.",
+      "type": "flow",
+      "domain": "ot",
+      "important": false,
+      "category": {
+        "id": "f2646837-2be7-552e-aa16-05f0be1932fc",
+        "label": "Control system behavior"
+      },
+      "nbOccurences": 1,
+      "riskScoreDescription": "Variable write between two devices. Since it relies on unsecured OT protocol, the result of this operation can easily be counterfeit. Source: https://collaborate.mitre.org/attackics/index.php/Technique/T0830"
+    }
+  ],
+  "device": {
+    "total": 194,
+    "active": 194,
+    "created": 194
+  },
+  "riskScoreStats": {
+    "median": 0
+  },
+  "differences": {
+    "total": 8
+  }
+}

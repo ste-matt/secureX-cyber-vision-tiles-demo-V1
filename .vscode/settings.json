@@ -1,0 +1,23 @@
+{
+    "window.commandCenter": true,
+    "python.formatting.provider": "black",
+    "editor.formatOnSave": true,
+    "appService.defaultWebAppToDeploy": "/subscriptions/7c369dde-0350-4a25-afb8-85ee886f3ddd/resourceGroups/appsvc_linux_centralus/subscriptions/7c369dde-0350-4a25-afb8-85ee886f3ddd/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/cyber-vision-app1",
+    "appService.deploySubpath": ".",
+    "cSpell.words": [
+        "authorised",
+        "concatentated",
+        "dtop",
+        "organise",
+        "recieved",
+        "toolbelt",
+        "truc",
+        "Unauthorised",
+        "urandom",
+        "URLV",
+        "vulnerabilty"
+    ],
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true,
+    "pylint.importStrategy": "fromEnvironment"
+}
