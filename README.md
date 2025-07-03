@@ -72,4 +72,7 @@ I do a basic decode of the hash and extract the Cyber Vision IP and token
 
 5. Hotlinks from dashboard elements could be added
 
+License
+This project is licensed under the Cisco Sample Code License 1.1 - see the LICENSE file for details
+
 *Steve Matthews stmatthe@cisco.com - Feb 23*
